@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgm4374d746at"]
+
+[ext_resource type="Script" uid="uid://bhyq8r0e4qvhm" path="res://scripts/credits.gd" id="1_0ctdu"]
+[ext_resource type="FontFile" uid="uid://bhqiawn1b8wk1" path="res://assets/font/alagard.ttf" id="2_0ctdu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ckv8"]
+
+[node name="Credits" type="Node2D"]
+script = ExtResource("1_0ctdu")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+offset_left = 243.0
+offset_top = 55.0
+offset_right = 397.0
+offset_bottom = 304.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 18
+text = "Diseño
+Marcos Vallasciani
+
+Producción
+Anabella Bravo
+
+Programación
+Facundo Moure
+
+Arte
+Paz Rozen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+z_index = 1
+offset_left = 573.0
+offset_top = 319.0
+offset_right = 630.0
+offset_bottom = 350.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2ckv8")
+text = "Volver"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_button_pressed"]

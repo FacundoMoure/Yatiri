@@ -1,0 +1,147 @@
+[gd_scene load_steps=34 format=3 uid="uid://u6d7eny6ylrp"]
+
+[ext_resource type="Script" uid="uid://bdebear6b468w" path="res://scripts/arrow.gd" id="1_ueniu"]
+[ext_resource type="Texture2D" uid="uid://vjytcep35e71" path="res://assets/img/MagickArrow/1/1_0.png" id="2_04tds"]
+[ext_resource type="Texture2D" uid="uid://pwxxda7ybesy" path="res://assets/img/MagickArrow/1/1_1.png" id="3_2wqbf"]
+[ext_resource type="Texture2D" uid="uid://w024bjsa0gfa" path="res://assets/img/MagickArrow/1/1_2.png" id="4_qtmda"]
+[ext_resource type="Texture2D" uid="uid://bn5nlj7w3je3y" path="res://assets/img/MagickArrow/1/1_3.png" id="5_bcqpr"]
+[ext_resource type="Texture2D" uid="uid://dcmhwvqltvd53" path="res://assets/img/MagickArrow/1/1_4.png" id="6_v3vw3"]
+[ext_resource type="Texture2D" uid="uid://dci2wbfk5gx8g" path="res://assets/img/MagickArrow/1/1_5.png" id="7_ibqb0"]
+[ext_resource type="Texture2D" uid="uid://cypmb0sb0aecw" path="res://assets/img/MagickArrow/1/1_6.png" id="8_1kyfy"]
+[ext_resource type="Texture2D" uid="uid://dxt00h500iq30" path="res://assets/img/MagickArrow/1/1_7.png" id="9_aqnq5"]
+[ext_resource type="Texture2D" uid="uid://c5gne0eqtox4s" path="res://assets/img/MagickArrow/1/1_8.png" id="10_5odrc"]
+[ext_resource type="Texture2D" uid="uid://cn7fcatekwtjc" path="res://assets/img/MagickArrow/1/1_9.png" id="11_03krj"]
+[ext_resource type="Texture2D" uid="uid://b2pg3cda4mafs" path="res://assets/img/MagickArrow/1/1_10.png" id="12_elu80"]
+[ext_resource type="Texture2D" uid="uid://bhh3t510pwhqs" path="res://assets/img/MagickArrow/1/1_11.png" id="13_gtoqv"]
+[ext_resource type="Texture2D" uid="uid://1uk3v5i0fv3w" path="res://assets/img/MagickArrow/1/1_12.png" id="14_s6qfk"]
+[ext_resource type="Texture2D" uid="uid://cd0b7nw5vpp23" path="res://assets/img/MagickArrow/1/1_13.png" id="15_32mjy"]
+[ext_resource type="Texture2D" uid="uid://cxcn47s1ssx2r" path="res://assets/img/MagickArrow/1/1_14.png" id="16_6hbiv"]
+[ext_resource type="Texture2D" uid="uid://dt18bx1juoh2j" path="res://assets/img/MagickArrow/1/1_15.png" id="17_l5733"]
+[ext_resource type="Texture2D" uid="uid://cuxsmt18g6j41" path="res://assets/img/MagickArrow/1/1_16.png" id="18_ftten"]
+[ext_resource type="Texture2D" uid="uid://bwfjwqfhq8qfu" path="res://assets/img/MagickArrow/1/1_17.png" id="19_3ggud"]
+[ext_resource type="Texture2D" uid="uid://tnpd7h4ejp2t" path="res://assets/img/MagickArrow/1/1_18.png" id="20_emult"]
+[ext_resource type="Texture2D" uid="uid://dkbiopt7b7mwv" path="res://assets/img/MagickArrow/1/1_19.png" id="21_klaak"]
+[ext_resource type="Texture2D" uid="uid://clb4qjh1em566" path="res://assets/img/MagickArrow/1/1_20.png" id="22_v855x"]
+[ext_resource type="Texture2D" uid="uid://cng55sxwge01w" path="res://assets/img/MagickArrow/1/1_21.png" id="23_eg8wu"]
+[ext_resource type="Texture2D" uid="uid://wafm1mwbfyqp" path="res://assets/img/MagickArrow/1/1_22.png" id="24_3bydu"]
+[ext_resource type="Texture2D" uid="uid://dlclyajwc8ky5" path="res://assets/img/MagickArrow/1/1_23.png" id="25_0ny0i"]
+[ext_resource type="Texture2D" uid="uid://bp3g8q30cpsx6" path="res://assets/img/MagickArrow/1/1_24.png" id="26_hvkqv"]
+[ext_resource type="Texture2D" uid="uid://blsomyvmp16np" path="res://assets/img/MagickArrow/1/1_25.png" id="27_f07jy"]
+[ext_resource type="Texture2D" uid="uid://cvvdt3b70r6ck" path="res://assets/img/MagickArrow/1/1_26.png" id="28_mcqom"]
+[ext_resource type="Texture2D" uid="uid://ccp7ktjmwpw1x" path="res://assets/img/MagickArrow/1/1_27.png" id="29_5nw4p"]
+[ext_resource type="Texture2D" uid="uid://cobiur35powol" path="res://assets/img/MagickArrow/1/1_28.png" id="30_yo5ww"]
+[ext_resource type="Texture2D" uid="uid://cdhv2pjrv2hx4" path="res://assets/img/MagickArrow/1/1_29.png" id="31_od1pv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qgfpr"]
+size = Vector2(24, 6)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7fqvq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_04tds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2wqbf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qtmda")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bcqpr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_v3vw3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ibqb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_1kyfy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_aqnq5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_5odrc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_03krj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_elu80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_gtoqv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_s6qfk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_32mjy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_6hbiv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_l5733")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_ftten")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_3ggud")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_emult")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_klaak")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_v855x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_eg8wu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_3bydu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_0ny0i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_hvkqv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_f07jy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_mcqom")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_5nw4p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_yo5ww")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_od1pv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 25.0
+}]
+
+[node name="Arrow" type="Area2D"]
+script = ExtResource("1_ueniu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(7, 2)
+shape = SubResource("RectangleShape2D_qgfpr")
+
+[node name="Arrow" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_7fqvq")
+frame = 15
+frame_progress = 0.446903

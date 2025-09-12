@@ -1,0 +1,146 @@
+[gd_scene load_steps=22 format=3 uid="uid://dtc54osiii58s"]
+
+[ext_resource type="PackedScene" uid="uid://cwifmrlq3q17b" path="res://scenes/player.tscn" id="1_jggnj"]
+[ext_resource type="Script" uid="uid://dmmvuc2i4uv7n" path="res://scripts/archer.gd" id="2_cctdm"]
+[ext_resource type="Texture2D" uid="uid://clad871ddn82r" path="res://assets/img/Archer/Normal Attack.png" id="2_orquw"]
+[ext_resource type="Texture2D" uid="uid://b0xelj3tojk4x" path="res://assets/img/Archer/Idle and running.png" id="3_cctdm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejvcm"]
+atlas = ExtResource("2_orquw")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c85qa"]
+atlas = ExtResource("2_orquw")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlvv2"]
+atlas = ExtResource("2_orquw")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d71b8"]
+atlas = ExtResource("2_orquw")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mak8i"]
+atlas = ExtResource("2_orquw")
+region = Rect2(256, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1s68y"]
+atlas = ExtResource("2_orquw")
+region = Rect2(320, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_88c65"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6mylm"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vbhtm"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74jyu"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4usjs"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnfv7"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s538n"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3krgg"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_811sq"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bw2e"]
+atlas = ExtResource("3_cctdm")
+region = Rect2(448, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nkhc8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejvcm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c85qa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlvv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d71b8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mak8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1s68y")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_88c65")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6mylm")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vbhtm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74jyu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4usjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnfv7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s538n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3krgg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_811sq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bw2e")
+}],
+"loop": true,
+"name": &"run",
+"speed": 6.0
+}]
+
+[node name="Archer" instance=ExtResource("1_jggnj")]
+collision_layer = 4
+script = ExtResource("2_cctdm")
+gravity = 900.0
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_nkhc8")
+frame = 0
+frame_progress = 0.0

@@ -1,0 +1,150 @@
+[gd_scene load_steps=13 format=3 uid="uid://d03yf1fthyln6"]
+
+[ext_resource type="Script" uid="uid://glioikhu4xge" path="res://scripts/menu.gd" id="1_con2f"]
+[ext_resource type="Texture2D" uid="uid://5p7gf26s2r15" path="res://assets/img/2.png" id="1_vjb58"]
+[ext_resource type="FontFile" uid="uid://bhqiawn1b8wk1" path="res://assets/font/alagard.ttf" id="2_con2f"]
+[ext_resource type="Texture2D" uid="uid://cgfhr0ah5sokx" path="res://assets/img/leaf.png" id="3_mhnvy"]
+[ext_resource type="AudioStream" uid="uid://dmxfq5vavwy5r" path="res://assets/sound/birds.mp3" id="5_4ytvr"]
+[ext_resource type="AudioStream" uid="uid://baj6cumn3ciy3" path="res://assets/sound/charango.mp3" id="6_g3eks"]
+
+[sub_resource type="Curve" id="Curve_4ytvr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_g3eks"]
+colors = PackedColorArray(0, 0.792157, 0, 1, 0, 0.854902, 0, 0)
+
+[sub_resource type="Curve" id="Curve_g3eks"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.483974, -0.120623), 0.0, 0.0, 0, 0, Vector2(0.894231, -1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g3eks"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v86rl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13sgg"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_con2f")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_vjb58")
+expand_mode = 1
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(350, -20)
+amount = 10
+texture = ExtResource("3_mhnvy")
+lifetime = 12.0
+speed_scale = 0.5
+fixed_fps = 30
+emission_shape = 3
+emission_rect_extents = Vector2(300, 0)
+direction = Vector2(-20, 0)
+spread = 180.0
+gravity = Vector2(0, 10)
+initial_velocity_max = 15.0
+orbit_velocity_min = -0.05
+orbit_velocity_max = -0.01
+scale_amount_min = 0.02
+scale_amount_max = 0.03
+scale_amount_curve = SubResource("Curve_4ytvr")
+color = Color(0, 1, 0, 1)
+color_ramp = SubResource("Gradient_g3eks")
+hue_variation_min = 1.0
+hue_variation_max = 1.0
+hue_variation_curve = SubResource("Curve_g3eks")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 75
+theme_override_constants/margin_bottom = 75
+
+[node name="Label" type="Label" parent="MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.658824)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("2_con2f")
+theme_override_font_sizes/font_size = 50
+text = "Yatiri"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 10
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(90, 31)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_con2f")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g3eks")
+text = "Jugar"
+
+[node name="CreditsButton" type="Button" parent="MarginContainer/VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(90, 31)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_con2f")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxEmpty_v86rl")
+text = "Créditos
+"
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(90, 31)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_con2f")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxEmpty_13sgg")
+text = "Salir"
+
+[node name="Sfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_4ytvr")
+autoplay = true
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_g3eks")
+autoplay = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
