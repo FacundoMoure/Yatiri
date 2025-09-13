@@ -10,11 +10,15 @@ config_version=5
 
 [application]
 
-config/name="Grito Originario"
-run/main_scene="uid://d03yf1fthyln6"
+config/name="Yatiri"
+run/main_scene="uid://dwrah6o3ea43a"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/show_image=false
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://scripts/global.gd"
 
 [display]
 

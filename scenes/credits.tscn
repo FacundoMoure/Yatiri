@@ -38,17 +38,20 @@ grow_vertical = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_0ctdu")
 theme_override_font_sizes/font_size = 18
-text = "Diseño
-Marcos Vallasciani
-
-Producción
+text = "Producción
 Anabella Bravo
+
+Diseño
+Marcos Vallasciani
 
 Programación
 Facundo Moure
 
 Arte
-Paz Rozen"
+Paz Rozen
+
+Agradecimientos
+UPSO"
 horizontal_alignment = 1
 vertical_alignment = 1
 

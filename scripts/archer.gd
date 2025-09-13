@@ -2,6 +2,7 @@ extends Player
 class_name Archer
 
 var attack_cooldown := false
+var preloadArrow = preload("res://scenes/arrow.tscn")
 
 func _ready() -> void:
 	# Idle inicial con frame aleatorio
@@ -25,3 +26,9 @@ func do_attack():
 	if not attack_cooldown:
 		attack_cooldown = true
 		animated_sprite.play("attack")
+		await get_tree().create_timer(0.5).timeout
+		var arrow = preloadArrow.instantiate()
+		arrow.set_position($ArrowPosition.global_position)
+		get_parent().add_child(arrow)
+		$Arrow.pitch_scale = randf_range(0.8, 1.0)
+		$Arrow.play()

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bdpe0in6t3f84"]
+[gd_scene load_steps=7 format=3 uid="uid://bdpe0in6t3f84"]
 
 [ext_resource type="Script" uid="uid://y6b54urc2i6l" path="res://scripts/hud.gd" id="1_oo0fn"]
+[ext_resource type="Texture2D" uid="uid://xfi5wky55bwm" path="res://assets/img/coin.png" id="2_5ysmq"]
 [ext_resource type="FontFile" uid="uid://cijxlhmdtc8ap" path="res://assets/font/OwreKynge.ttf" id="2_oo0fn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oo0fn"]
@@ -39,6 +40,7 @@ corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
 
 [node name="HUD" type="Control"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,22 +58,38 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
 
-[node name="Tesoro" type="Label" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="Coin" type="Sprite2D" parent="MarginContainer/HBoxContainer"]
+texture_filter = 1
+position = Vector2(586, 9)
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("2_5ysmq")
+
+[node name="Coins" type="Label" parent="MarginContainer/HBoxContainer"]
 texture_filter = 1
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 26
-text = "Tesoro: 0"
+theme_override_font_sizes/font_size = 18
+text = "20"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 4
 
-[node name="ChamanHealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+[node name="ChamanHealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer2"]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(80, 10)
 layout_mode = 2
@@ -83,14 +101,25 @@ theme_override_styles/background = SubResource("StyleBoxFlat_oo0fn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5ysmq")
 value = 80.0
 
-[node name="TribuHealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+[node name="Tribu" type="Label" parent="MarginContainer/HBoxContainer2"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_oo0fn")
+theme_override_font_sizes/font_size = 20
+text = "Tribu"
+vertical_alignment = 2
+
+[node name="TribuHealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer2"]
 texture_filter = 1
 custom_minimum_size = Vector2(70, 10)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 12
 theme_override_styles/background = SubResource("StyleBoxFlat_oo0fn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6fi6k")
 value = 100.0

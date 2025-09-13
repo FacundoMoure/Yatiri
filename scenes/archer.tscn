@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://dtc54osiii58s"]
+[gd_scene load_steps=23 format=3 uid="uid://dtc54osiii58s"]
 
 [ext_resource type="PackedScene" uid="uid://cwifmrlq3q17b" path="res://scenes/player.tscn" id="1_jggnj"]
 [ext_resource type="Script" uid="uid://dmmvuc2i4uv7n" path="res://scripts/archer.gd" id="2_cctdm"]
 [ext_resource type="Texture2D" uid="uid://clad871ddn82r" path="res://assets/img/Archer/Normal Attack.png" id="2_orquw"]
 [ext_resource type="Texture2D" uid="uid://b0xelj3tojk4x" path="res://assets/img/Archer/Idle and running.png" id="3_cctdm"]
+[ext_resource type="AudioStream" uid="uid://oeqboyd6g3rv" path="res://assets/sound/arrow.wav" id="5_ejvcm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ejvcm"]
 atlas = ExtResource("2_orquw")
@@ -69,7 +70,7 @@ region = Rect2(384, 64, 64, 64)
 atlas = ExtResource("3_cctdm")
 region = Rect2(448, 64, 64, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_nkhc8"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ejvcm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -92,7 +93,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 6.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -141,6 +142,14 @@ script = ExtResource("2_cctdm")
 gravity = 900.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = SubResource("SpriteFrames_nkhc8")
-frame = 0
-frame_progress = 0.0
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_ejvcm")
+frame = 5
+frame_progress = 1.0
+
+[node name="ArrowPosition" type="Node2D" parent="." index="3"]
+position = Vector2(7, -7)
+
+[node name="Arrow" type="AudioStreamPlayer2D" parent="." index="4"]
+stream = ExtResource("5_ejvcm")
+volume_db = -8.0

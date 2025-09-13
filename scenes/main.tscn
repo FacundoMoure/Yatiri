@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://dwrah6o3ea43a"]
+[gd_scene load_steps=17 format=4 uid="uid://dwrah6o3ea43a"]
 
 [ext_resource type="Script" uid="uid://cy1jfvpk34272" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://b7gqby3jeqjbv" path="res://assets/img/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_0wfyh"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dtc54osiii58s" path="res://scenes/archer.tscn" id="10_choun"]
 [ext_resource type="PackedScene" uid="uid://bdpe0in6t3f84" path="res://scenes/hud.tscn" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://dtel6iu06o1tn" path="res://scripts/day_night_cycle.gd" id="12_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://c57j15065au41" path="res://scenes/enemy_1.tscn" id="13_trceg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("2_0wfyh")
@@ -508,10 +509,10 @@ sources/0 = SubResource("TileSetAtlasSource_sugp2")
 script/source = "extends Node2D
 
 @export var archer_scene: PackedScene     # asigná Archer.tscn desde el inspector
-@export var tribe_size: int = 6           # cantidad de miembros de la tribu
-@export var spacing: float = 50.0         # separación horizontal entre ellos
-@export var start_position: Vector2 = Vector2(200, 300)  # posición inicial de la manada
-@export var attack_interval: float = 10.0 # cada cuánto atacan todos juntos
+@export var tribe_size: int = 3           # cantidad de miembros de la tribu
+@export var spacing: float = 60.0         # separación horizontal entre ellos
+@export var start_position: Vector2 = Vector2(100, 300)  # posición inicial de la manada
+@export var attack_interval: float = 8.0 # cada cuánto atacan todos juntos
 
 var tribe: Array = []
 
@@ -548,7 +549,7 @@ func _on_attack_timeout() -> void:
 	# cada miembro de la tribu ataca, pero con un pequeño desfase aleatorio
 	for archer in tribe:
 		if archer and archer.is_inside_tree():
-			var delay = randf_range(0.0, 1.5) # entre 0 y 1 segundo
+			var delay = randf_range(0.0, 6.0) # entre 0 y 1 segundo
 			get_tree().create_timer(delay).timeout.connect(func():
 				if archer and archer.is_inside_tree():
 					archer.do_attack())
@@ -614,10 +615,12 @@ position = Vector2(143, 319)
 [node name="TribeSpawner" type="Node2D" parent="."]
 script = SubResource("GDScript_ya4ey")
 archer_scene = ExtResource("10_choun")
-spacing = 20.0
-start_position = Vector2(200, 325)
+spacing = 30.0
+start_position = Vector2(5, 325)
+attack_interval = 6.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15
@@ -633,3 +636,6 @@ script = ExtResource("12_eb6dy")
 [node name="HUD" parent="HUD" instance=ExtResource("11_ya4ey")]
 size_flags_horizontal = 0
 size_flags_vertical = 0
+
+[node name="Enemy 1" parent="." instance=ExtResource("13_trceg")]
+position = Vector2(520, 332)

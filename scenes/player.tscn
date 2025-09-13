@@ -85,7 +85,7 @@ region = Rect2(480, 0, 80, 80)
 atlas = ExtResource("3_qhqgy")
 region = Rect2(560, 0, 80, 80)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_smehm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_dqkch"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -173,13 +173,11 @@ script = ExtResource("1_g2els")
 gravity = 700.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 2
+z_index = 4
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_smehm")
+sprite_frames = SubResource("SpriteFrames_dqkch")
 animation = &"attack"
 autoplay = "idle"
-frame = 7
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_u8vuu")

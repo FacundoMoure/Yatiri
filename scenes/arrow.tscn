@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://u6d7eny6ylrp"]
+[gd_scene load_steps=36 format=3 uid="uid://u6d7eny6ylrp"]
 
 [ext_resource type="Script" uid="uid://bdebear6b468w" path="res://scripts/arrow.gd" id="1_ueniu"]
 [ext_resource type="Texture2D" uid="uid://vjytcep35e71" path="res://assets/img/MagickArrow/1/1_0.png" id="2_04tds"]
@@ -33,7 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://cdhv2pjrv2hx4" path="res://assets/img/MagickArrow/1/1_29.png" id="31_od1pv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qgfpr"]
-size = Vector2(24, 6)
+size = Vector2(11, 4)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7fqvq"]
 animations = [{
@@ -133,15 +133,37 @@ animations = [{
 "speed": 25.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_ueniu"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_04tds"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="Arrow" type="Area2D"]
 script = ExtResource("1_ueniu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(7, 2)
+position = Vector2(2, 1)
 shape = SubResource("RectangleShape2D_qgfpr")
 
 [node name="Arrow" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_7fqvq")
 frame = 15
 frame_progress = 0.446903
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 12
+lifetime = 0.2
+preprocess = 0.3
+speed_scale = 1.2
+randomness = 1.0
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 6.0
+spread = 60.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_ueniu")
+hue_variation_curve = SubResource("Curve_04tds")
