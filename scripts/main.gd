@@ -2,11 +2,13 @@ extends Node2D
 
 @onready var player: CharacterBody2D = $Player
 @onready var tilemap: TileMapLayer = $TileMap 
+@onready var coin_scene = preload("res://scenes/coin.tscn") 
 
 var segment_width: int
 var tiles: Array = []
 
 func _ready() -> void:
+	Global.coins = 5
 	# Medir ancho del tilemap
 	var rect = tilemap.get_used_rect()
 	var tile_size = tilemap.tile_set.tile_size
@@ -14,6 +16,8 @@ func _ready() -> void:
 
 	# Lista de tilemaps que se están usando
 	tiles.append(tilemap)
+	
+	spawn_coins_in_row(Vector2(-300, 325), 5, 60) 
 
 func _process(delta: float) -> void:
 	var player_x = player.global_position.x
@@ -33,3 +37,9 @@ func _process(delta: float) -> void:
 		add_child(new_tile)
 		new_tile.position.x = min_x - segment_width
 		tiles.insert(0, new_tile)
+
+func spawn_coins_in_row(start_pos: Vector2, count: int, spacing: int = 10) -> void:
+	for i in range(count):
+		var coin = coin_scene.instantiate()
+		coin.position = start_pos + Vector2(i * spacing, 0) # fila horizontal
+		add_child(coin)

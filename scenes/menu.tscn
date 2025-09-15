@@ -140,6 +140,7 @@ text = "Salir"
 [node name="Sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_4ytvr")
 autoplay = true
+stream_paused = true
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_g3eks")

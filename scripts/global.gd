@@ -1,6 +1,6 @@
 extends Node
 
-var coins: int = 20 # vida inicial del jugador
+var coins: int = 5 # vida inicial del jugador
 
 signal coins_changed(new_value)
 
