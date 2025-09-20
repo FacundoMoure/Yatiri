@@ -34,8 +34,10 @@ func _on_body_entered(body: Node) -> void:
 		await get_tree().create_timer(0.2).timeout
 		queue_free()
 	elif body.is_in_group("Ground"):
-		$Arrow_Impact.play()
 		$Arrow.visible = false
+		$CPUParticles2D.one_shot = true
+		$CPUParticles2D.emitting = false
+		$CPUParticles2D.speed_scale = 0
 		await get_tree().create_timer(0.3).timeout
 		queue_free()
 
@@ -47,6 +49,13 @@ func launch_towards_enemy(enemy: Node2D, time_to_hit: float = 1.2) -> void:
 	if not enemy or not enemy.is_inside_tree():
 		return
 	
-	var distance = enemy.global_position - global_position
+	# Randomización
+	var target_pos = enemy.global_position
+	target_pos.x += randf_range(-50, 50) 
+
+	# Calcular distancia con la posición randomizada
+	var distance = target_pos - global_position
+
+	# Calcular velocidad para llegar en 'time_to_hit' segundos
 	vel.x = distance.x / time_to_hit
 	vel.y = (distance.y - 0.5 * fall_gravity * time_to_hit * time_to_hit) / time_to_hit

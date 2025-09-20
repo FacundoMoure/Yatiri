@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cijoas0ipwm7w"]
+
+[ext_resource type="Script" uid="uid://v6madnpp2rid" path="res://scripts/splash.gd" id="1_4rrho"]
+[ext_resource type="Texture2D" uid="uid://bmchy204l3l2y" path="res://assets/img/SuriGames_v5.png" id="2_4rrho"]
+[ext_resource type="PackedScene" uid="uid://cw3w7ubl15l72" path="res://scenes/transition_control.tscn" id="3_5svwm"]
+
+[node name="Splash" type="Node2D"]
+script = ExtResource("1_4rrho")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_4rrho")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TransitionControl" parent="CanvasLayer" instance=ExtResource("3_5svwm")]
+visible = false

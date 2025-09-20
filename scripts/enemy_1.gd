@@ -1,154 +1,250 @@
 extends CharacterBody2D
 class_name Enemy
 
+enum State { WALK_FORWARD, PRE_ATTACK, ATTACK, WALK_BACK, IDLE, HURT, DEAD }
+
 @export var health: int = 100
-@export var knockback_force: float = 100.0
+@export var walk_speed: float = 170.0
+@export var walk_duration: float = 1.6
 @export var attack_knockback: float = 400.0
-@export var walk_speed: float = 170.0      # velocidad al caminar después de atacar
-@export var walk_duration: float = 1.6    # tiempo (segundos) que camina antes de volver a idle
-@export var steps_volume_db: float = -23.0  # volumen en dB, ajustable desde inspector
+@export var steps_volume_db: float = -23.0
+@export var attack_range: float = 50.0
+@export var pre_attack_delay: float = 0.3
+@export var idle_duration: float = 5.0   # tiempo quieto después del walk_back
+@export var attack_offset: float = 50.0
 
-@onready var enemy: AnimatedSprite2D = $Enemy
-@onready var attack_area: Area2D = $AttackArea
 @onready var animated_sprite: AnimatedSprite2D = $Enemy
+@onready var attack_area: Area2D = $AttackArea
 
-var flashing := false
-var _original_modulate: Color = Color(1, 1, 1, 1)
-var is_hurt := false        # bloquea animaciones y ataques mientras está herido
+var base_attack_area_position: Vector2
+var state: State = State.WALK_FORWARD
+var walk_direction: int = 1
 var can_attack_sound := true
 var is_dead := false
-var is_attacking := false
-var is_walking := false     # flag para caminar luego de atacar
+var flashing := false
+var hurt_cooldown := false
+var idle_timer_active := false
 
 func _ready() -> void:
-	_original_modulate = enemy.modulate
-	attack_area.body_entered.connect(_on_attack_area_body_entered)
+	base_attack_area_position = attack_area.position
+	attack_area.monitoring = false
 	animated_sprite.animation_finished.connect(_on_animation_finished)
+	animated_sprite.frame_changed.connect(_on_frame_changed)
+
+
 
 func _physics_process(delta: float) -> void:
-	# Si está herido o muerto, no hacemos lógica de ataque ni walk
-	if is_hurt or is_dead:
-		move_and_slide()
-		attack_area.monitoring = false
-		is_attacking = false
+	if is_dead:
 		return
 
-	if not is_walking:
-		velocity = velocity.move_toward(Vector2.ZERO, 600 * delta)
+	if state == State.WALK_FORWARD:
+		var player_list = get_tree().get_nodes_in_group("Player")
+		if not player_list.is_empty():
+			var player = player_list.front()
+			var new_direction = sign(player.global_position.x - global_position.x)
+			if new_direction == 0:
+				new_direction = 1
+			if new_direction != walk_direction:
+				walk_direction = new_direction
+				animated_sprite.flip_h = walk_direction < 0
+				_update_attack_area_direction()
 
-	if is_walking:
-		velocity.x = walk_speed               # movimiento hacia la derecha
-		animated_sprite.flip_h = false        # mira a la derecha
-		if animated_sprite.animation != "walk":
-			$Steps.volume_db = steps_volume_db   # aplicar volumen desde inspector
-			$Steps.play()
-			animated_sprite.play("walk")      # reproducir animación "walk"
+			if animated_sprite.animation != "walk":
+				animated_sprite.play("walk")
+
+			if global_position.distance_to(player.global_position) <= attack_range:
+				set_state(State.PRE_ATTACK)
+
+	# Velocidad según estado
+	if state == State.WALK_FORWARD:
+		velocity.x = walk_speed * walk_direction
+	elif state == State.WALK_BACK:
+		velocity.x = -walk_speed * walk_direction
+	else:
+		velocity.x = 0
 
 	move_and_slide()
 
-	if not is_walking:
-		var player_list = get_tree().get_nodes_in_group("Player")
-		if player_list.size() == 0:
-			if not is_attacking:
-				animated_sprite.play("idle")
-				$Steps.stop()
-			attack_area.monitoring = false
-			return
+# -------------------- ESTADOS --------------------
 
-		var player = player_list.front()
-		if player and global_position.distance_to(player.global_position) < 60 and not is_hurt:
-			# iniciar ataque
-			if not is_attacking:
-				
-				animated_sprite.play("attack")
-				is_attacking = true
-				
-			attack_area.monitoring = animated_sprite.frame == 2
+func set_state(new_state: State) -> void:
+	if state == new_state:
+		return
+	state = new_state
 
+	match state:
+		State.WALK_FORWARD:
+			var player_list = get_tree().get_nodes_in_group("Player")
+			if not player_list.is_empty():
+				var player = player_list.front()
+				var new_direction = sign(player.global_position.x - global_position.x)
+				if new_direction == 0:
+					new_direction = 1
+				walk_direction = new_direction
+				animated_sprite.flip_h = walk_direction < 0
+				_update_attack_area_direction()
+
+				animated_sprite.play("walk")
+				$Steps.volume_db = steps_volume_db
+				$Steps.play()
+
+		State.PRE_ATTACK:
+			velocity = Vector2.ZERO
+			$Steps.stop()
+			animated_sprite.play("idle")
+			_pre_attack_timer()
+
+		State.ATTACK:
+			attack_area.monitoring = true
+			animated_sprite.play("attack")
 			if can_attack_sound:
 				$Attack.play()
 				can_attack_sound = false
 				_reset_attack_sound_cooldown()
-		else:
-			if not is_attacking:
-				animated_sprite.play("idle")
-				$Steps.stop()
+
+		State.WALK_BACK:
+			velocity.x = -walk_speed * walk_direction
+			animated_sprite.flip_h = (-walk_direction) < 0
+			_update_attack_area_direction()
+			animated_sprite.play("walk")
+			$Steps.volume_db = steps_volume_db
+			$Steps.play()
+			_start_walk_back_timer()
+
+		State.IDLE:
+			velocity = Vector2.ZERO
+			$Steps.stop()
+			attack_area.monitoring = false
+			animated_sprite.play("idle")
+
+			# 👇 nuevo: mirar hacia el Player al entrar en idle
+			var player_list = get_tree().get_nodes_in_group("Player")
+			if not player_list.is_empty():
+				var player = player_list.front()
+				var dir = sign(player.global_position.x - global_position.x)
+				if dir != 0:
+					walk_direction = dir
+					animated_sprite.flip_h = walk_direction < 0
+					_update_attack_area_direction()
+
+		State.HURT:
+			velocity = Vector2.ZERO
+			animated_sprite.play("hurt")
+			$Steps.stop()
 			attack_area.monitoring = false
 
+		State.DEAD:
+			is_dead = true
+			velocity = Vector2.ZERO
+			animated_sprite.play("death")
+			$CollisionShape2D.disabled = true
+			$Steps.stop()
+			attack_area.monitoring = false
+			remove_from_group("Enemy")
+
+# -------------------- PRE ATTACK --------------------
+
+func _pre_attack_timer() -> void:
+	await get_tree().create_timer(pre_attack_delay).timeout
+	if state == State.PRE_ATTACK:
+		set_state(State.ATTACK)
+
+# -------------------- ATAQUE --------------------
+
+func _on_frame_changed() -> void:
+	if state == State.ATTACK and animated_sprite.frame == 2:
+		for body in attack_area.get_overlapping_bodies():
+			
+			if body.is_in_group("Player") and body.name == "Player" and body.has_method("take_damage"):
+				
+				var dir = Vector2(sign(body.global_position.x - global_position.x), 0) * (attack_knockback / 2)
+				var hit_from_right = body.global_position.x < global_position.x
+				body.take_damage(dir, hit_from_right)
+
+				await get_tree().create_timer(0.1).timeout
+				if body.has_method("camera_shake"):
+					body.camera_shake(0.4, 3)
+
 func _on_animation_finished() -> void:
-	if animated_sprite.animation == "attack":
-		# termina ataque
-		is_attacking = false
+	if animated_sprite.animation == "attack" and state == State.ATTACK:
 		attack_area.monitoring = false
+		set_state(State.WALK_BACK)
 
-		# empieza a caminar hacia la derecha
-		await get_tree().create_timer(0.4).timeout
-		is_walking = true
+	elif animated_sprite.animation == "hurt" and state == State.HURT:
+		if health <= 0:
+			set_state(State.DEAD)
+		elif idle_timer_active:
+			set_state(State.IDLE)
+		else:
+			set_state(State.WALK_FORWARD)
 
-		_return_to_idle()
+# -------------------- WALK BACK --------------------
 
-func _return_to_idle() -> void:
+func _start_walk_back_timer() -> void:
 	await get_tree().create_timer(walk_duration).timeout
-	is_walking = false
-	velocity = Vector2.ZERO
-	animated_sprite.flip_h = true    # vuelve a mirar a la izquierda
-	animated_sprite.play("idle")
+	if not is_dead:
+		set_state(State.IDLE)
+
+# -------------------- IDLE --------------------
+
+func _start_idle_timer() -> void:
+	idle_timer_active = true
+	await get_tree().create_timer(idle_duration).timeout
+	idle_timer_active = false
+	if not is_dead and state == State.IDLE:
+		set_state(State.WALK_FORWARD)
+
+# -------------------- DAMAGE --------------------
 
 func take_damage(amount: int, knockback_dir: Vector2, is_arrow_attack: bool = false) -> void:
-	if health <= 0 or is_dead:
+	if health <= 0 or is_dead or hurt_cooldown:
 		return
-
 	health -= amount
-	is_hurt = true
-	animated_sprite.play("hurt")
-
-	# Aplicar knockback siempre
+	hurt_cooldown = true
+	set_state(State.HURT)
 	velocity = knockback_dir
-
-	# El sonido ya lo reproduce la flecha, no es necesario aquí
-	# Solo reproducimos sonido si querés otro para ataques cuerpo a cuerpo
 	if not is_arrow_attack:
 		$AttackHit.play()
-
 	flash_white()
 	await get_tree().create_timer(0.3).timeout
-	is_hurt = false
-
-	if health > 0:
-		animated_sprite.play("idle")
-	else:
-		die()
-
-func die() -> void:
-	is_dead = true
-	$CollisionShape2D.disabled = true
-	animated_sprite.play("death")
-	velocity = Vector2.ZERO
+	hurt_cooldown = false
+	# el cambio de estado lo maneja _on_animation_finished
 
 func flash_white() -> void:
 	if flashing:
 		return
 	flashing = true
-	var original = enemy.modulate
-	enemy.modulate = Color(2, 2, 2, 1)
+	var original = animated_sprite.modulate
+	animated_sprite.modulate = Color(2, 2, 2, 1)
 	await get_tree().create_timer(0.1).timeout
-	enemy.modulate = original
+	animated_sprite.modulate = original
 	flashing = false
-
-func _on_attack_area_body_entered(body: Node) -> void:
-	if is_dead:
-		return
-
-	if body.is_in_group("Player") and body.has_method("take_damage"):
-		var dir = Vector2(sign(body.global_position.x - global_position.x), 0) * (attack_knockback / 2)
-		var hit_from_right = body.global_position.x < global_position.x
-		body.take_damage(dir, hit_from_right)
-
-		# Pequeño delay para shake de cámara
-		await get_tree().create_timer(0.1).timeout
-		if body.has_method("camera_shake"):
-			body.camera_shake(0.4, 3)
 
 func _reset_attack_sound_cooldown() -> void:
 	await get_tree().create_timer(3.0).timeout
 	can_attack_sound = true
+
+# -------------------- NUEVO --------------------
+func _update_attack_area_direction() -> void:
+	var offset = 50.0  # distancia extra solo al mirar a la derecha
+	if walk_direction > 0:
+		# mirando derecha → posición base + offset
+		attack_area.position = base_attack_area_position + Vector2(offset, 0)
+	else:
+		# mirando izquierda → posición base (la del editor)
+		attack_area.position = base_attack_area_position
+
+func face_direction(looking_right: bool) -> void:
+	if looking_right:
+		walk_direction = 1
+		animated_sprite.flip_h = false
+	else:
+		walk_direction = -1
+		animated_sprite.flip_h = true
+	
+	# Actualizar AttackArea según lado
+	var offset = 50.0
+	if walk_direction > 0:
+		attack_area.position = base_attack_area_position + Vector2(offset, 0)
+	else:
+		attack_area.position = base_attack_area_position

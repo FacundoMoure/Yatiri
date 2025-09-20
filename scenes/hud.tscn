@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdpe0in6t3f84"]
+[gd_scene load_steps=8 format=3 uid="uid://bdpe0in6t3f84"]
 
 [ext_resource type="Script" uid="uid://y6b54urc2i6l" path="res://scripts/hud.gd" id="1_oo0fn"]
 [ext_resource type="Texture2D" uid="uid://xfi5wky55bwm" path="res://assets/img/coin.png" id="2_5ysmq"]
 [ext_resource type="FontFile" uid="uid://cijxlhmdtc8ap" path="res://assets/font/OwreKynge.ttf" id="2_oo0fn"]
+[ext_resource type="Texture2D" uid="uid://doac04bh3ce28" path="res://assets/img/Plant 1.png" id="4_6fi6k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oo0fn"]
 bg_color = Color(1, 1, 1, 1)
@@ -60,33 +61,11 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_constants/separation = 10
-alignment = 2
-
-[node name="Coin" type="Sprite2D" parent="MarginContainer/HBoxContainer"]
-texture_filter = 1
-position = Vector2(586, 9)
-scale = Vector2(1.8, 1.8)
-texture = ExtResource("2_5ysmq")
-
-[node name="Coins" type="Label" parent="MarginContainer/HBoxContainer"]
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 18
-text = "20"
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme_override_constants/separation = 4
+theme_override_constants/separation = 7
 
 [node name="ChamanHealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer2"]
 visible = false
@@ -102,16 +81,15 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_5ysmq")
 value = 80.0
 
 [node name="Tribu" type="Label" parent="MarginContainer/HBoxContainer2"]
-texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/outline_size = 5
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 text = "Tribu"
-vertical_alignment = 2
 
 [node name="TribuHealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer2"]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(70, 10)
 layout_mode = 2
@@ -124,11 +102,64 @@ theme_override_styles/background = SubResource("StyleBoxFlat_oo0fn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6fi6k")
 value = 100.0
 
+[node name="TribuNumber" type="Label" parent="MarginContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_oo0fn")
+theme_override_font_sizes/font_size = 18
+text = "01"
+
 [node name="DayLabel" type="Label" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-theme_override_constants/outline_size = 5
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
 theme_override_font_sizes/font_size = 18
 text = "Dia 1"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Coin" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+position = Vector2(-15, 9)
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("2_5ysmq")
+
+[node name="Coins" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_oo0fn")
+theme_override_font_sizes/font_size = 18
+text = "05"
+horizontal_alignment = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="Potions" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_oo0fn")
+theme_override_font_sizes/font_size = 18
+text = "05"
+
+[node name="Potion" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+texture_filter = 1
+position = Vector2(-16, 5)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_6fi6k")

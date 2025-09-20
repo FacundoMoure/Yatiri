@@ -3,12 +3,12 @@ extends Node2D
 @onready var player: CharacterBody2D = $Player
 @onready var tilemap: TileMapLayer = $TileMap 
 @onready var coin_scene = preload("res://scenes/coin.tscn") 
+@onready var hut_scene = preload("res://scenes/hut.tscn")
 
 var segment_width: int
 var tiles: Array = []
 
 func _ready() -> void:
-	Global.coins = 5
 	# Medir ancho del tilemap
 	var rect = tilemap.get_used_rect()
 	var tile_size = tilemap.tile_set.tile_size
@@ -20,6 +20,11 @@ func _ready() -> void:
 	spawn_coins_in_row(Vector2(-300, 325), 5, 60) 
 
 func _process(delta: float) -> void:
+	
+	#var hut = hut_scene.instantiate()
+	#add_child(hut)
+	#hut.position = Vector2(-500, 285)  # podés ajustar Y según el suelo
+	
 	var player_x = player.global_position.x
 
 	# Chequear si hay que duplicar a la derecha

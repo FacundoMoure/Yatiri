@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://tmd0h4oma52p"]
+
+[ext_resource type="Texture2D" uid="uid://dhvxcks6oy3vy" path="res://assets/img/hut.png" id="1_n3evu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lbxpc"]
+size = Vector2(102, 83)
+
+[sub_resource type="Gradient" id="Gradient_n3evu"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.619608)
+
+[node name="Hut" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.542318, 0.542318, 0.542318, 1)
+texture_filter = 1
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_n3evu")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 21.5)
+shape = SubResource("RectangleShape2D_lbxpc")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-3, 86)
+amount = 40
+lifetime = 0.8
+speed_scale = 0.2
+randomness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(80, 1)
+spread = 84.31
+gravity = Vector2(0, -800)
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_n3evu")

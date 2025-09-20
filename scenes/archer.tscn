@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://dtc54osiii58s"]
+[gd_scene load_steps=25 format=3 uid="uid://dtc54osiii58s"]
 
 [ext_resource type="PackedScene" uid="uid://cwifmrlq3q17b" path="res://scenes/player.tscn" id="1_jggnj"]
 [ext_resource type="Script" uid="uid://dmmvuc2i4uv7n" path="res://scripts/archer.gd" id="2_cctdm"]
 [ext_resource type="Texture2D" uid="uid://b0xelj3tojk4x" path="res://assets/img/Archer/Idle and running.png" id="3_cctdm"]
 [ext_resource type="Texture2D" uid="uid://dm2yopqyjgjce" path="res://assets/img/Archer/High Attack.png" id="3_ejvcm"]
+[ext_resource type="Shader" uid="uid://dst0fuigtke0r" path="res://shaders/player.gdshader" id="5_c85qa"]
 [ext_resource type="AudioStream" uid="uid://oeqboyd6g3rv" path="res://assets/sound/arrow.wav" id="5_ejvcm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c85qa"]
@@ -136,19 +137,33 @@ animations = [{
 "speed": 6.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vlvv2"]
+shader = ExtResource("5_c85qa")
+shader_parameter/player_position = Vector2(0, 0)
+shader_parameter/color = Color(0.305, 0.298, 0.341, 1)
+shader_parameter/MULTIPLIER = 0.56
+shader_parameter/SCALE = 0.5
+shader_parameter/SOFTNESS = 0.65
+
 [node name="Archer" instance=ExtResource("1_jggnj")]
+scale = Vector2(1.1, 1.1)
 collision_layer = 4
 script = ExtResource("2_cctdm")
+metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_ejvcm")
 animation = &"attack"
-frame = 5
-frame_progress = 1.0
+frame = 1
+frame_progress = 0.0
+
+[node name="Light" parent="AnimatedSprite2D" index="1"]
+material = SubResource("ShaderMaterial_vlvv2")
 
 [node name="ArrowPosition" type="Node2D" parent="." index="3"]
 position = Vector2(7, -7)
 
 [node name="Attack" parent="." index="4"]
 stream = ExtResource("5_ejvcm")
+volume_db = -16.0

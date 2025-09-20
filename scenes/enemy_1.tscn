@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://c57j15065au41"]
+[gd_scene load_steps=46 format=3 uid="uid://c57j15065au41"]
 
 [ext_resource type="Script" uid="uid://dd7yqxlv3irr7" path="res://scripts/enemy_1.gd" id="1_a1412"]
 [ext_resource type="Texture2D" uid="uid://ttnex2h5sv3a" path="res://assets/img/Orc/Orc/Orc-Idle.png" id="1_tcmaw"]
@@ -202,7 +202,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -234,6 +234,24 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_ur7pv"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hcr21"]
+gradient = SubResource("Gradient_ur7pv")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_x5oq2"]
+blend_mode = 1
+light_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_3v2ag"]
+offsets = PackedFloat32Array(0, 0.652482)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m468s"]
+gradient = SubResource("Gradient_3v2ag")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hcr21"]
 size = Vector2(27.5, 34)
 
@@ -246,16 +264,30 @@ scale = Vector2(1.2, 1.2)
 collision_layer = 32
 collision_mask = 80
 script = ExtResource("1_a1412")
-knockback_force = 70.0
+health = 99
 metadata/_edit_group_ = true
 
 [node name="Enemy" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_oweuj")
-animation = &"hurt"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.400588
 flip_h = true
+
+[node name="PointLight2D" type="PointLight2D" parent="Enemy"]
+visible = false
+color = Color(1, 1, 1, 0)
+energy = 1.4
+texture = SubResource("GradientTexture2D_hcr21")
+texture_scale = 2.0
+height = 512.0
+
+[node name="Light" type="Sprite2D" parent="Enemy/PointLight2D"]
+modulate = Color(0.0313726, 0.207843, 0.0313726, 0.490196)
+material = SubResource("CanvasItemMaterial_x5oq2")
+texture = SubResource("GradientTexture2D_m468s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-3.75, -3)

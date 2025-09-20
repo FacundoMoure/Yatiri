@@ -8,17 +8,23 @@ class_name Player
 @export var health: int = 100
 @export var flash_duration: float = 0.4
 @export var knockback_friction: float = 500.0
+@export var attack_offset: float = 50.0   # offset para izquierda
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var attack_area: Area2D = $AttackArea
 @onready var attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
 @onready var steps: AudioStreamPlayer2D = $Steps
-@onready var attack_sound: AudioStreamPlayer2D = $Attack
+@onready var attack_sound: AudioStreamPlayer = $Attack
 @onready var camera: Camera2D = $Camera2D
 @onready var coin_scene: PackedScene = preload("res://scenes/dropped_coin.tscn")
+@export var lightning_scene: PackedScene = preload("res://scenes/lightning.tscn") # ⚡ nuevo
 
+var base_attack_area_position: Vector2
 var direction: Vector2 = Vector2.ZERO
+var facing_direction: int = 1  # 1 = derecha, -1 = izquierda
+
 var is_attacking: bool = false
+var is_magic_attacking: bool = false   # ⚡ nuevo
 var is_hurt: bool = false
 var flashing: bool = false
 var is_dead := false
@@ -28,8 +34,10 @@ var knockback_timer: float = 0.0
 var knockback_duration: float = 0.2
 
 func _ready() -> void:
+	base_attack_area_position = attack_area.position
 	attack_area.body_entered.connect(_on_attack_area_body_entered)
 	attack_shape.disabled = true
+	_update_attack_area_direction()
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -38,40 +46,51 @@ func _physics_process(delta: float) -> void:
 	# --- Movimiento ---
 	direction.x = Input.get_axis("left", "right")
 
+	# Actualizar facing_direction si moviéndose
+	if direction.x != 0:
+		facing_direction = sign(direction.x)
+
+	# Actualizar attack_area según dirección, incluso quieto
+	_update_attack_area_direction()
+
 	# Contar tiempo caminando solo si el jugador se mueve
-	if direction.x != 0 and not is_attacking and not is_hurt:
+	if direction.x != 0 and not is_attacking and not is_magic_attacking and not is_hurt: # ⚡ agregado is_magic_attacking
 		walk_timer += delta
 	else:
 		walk_timer = 0.0
 
-	# Reducir velocidad si supera los 6 segundos caminando
+	# Reducir velocidad si supera el tiempo caminando
 	var current_speed = speed
 	if walk_timer >= walk_slowdown_after:
 		current_speed = walk_slow_speed
 
 	# Movimiento horizontal
-	if not is_attacking and not is_hurt:
-		if direction.x != 0:
-			velocity.x = direction.x * current_speed
-		else:
-			velocity.x = 0
+	if not is_attacking and not is_magic_attacking and not is_hurt: # ⚡ agregado is_magic_attacking
+		velocity.x = direction.x * current_speed
 	elif is_hurt:
-		# aplicar freno solo durante knockback
+		# aplicar freno durante knockback
 		if knockback_timer > 0:
 			knockback_timer -= delta
 			velocity.x = move_toward(velocity.x, 0, knockback_friction * delta)
 		else:
 			is_hurt = false
 
-	# --- Animaciones y ataque ---
+	# Animaciones y ataque
 	if is_attacking:
 		if animated_sprite.animation == "attack" and animated_sprite.frame == 2:
 			attack_shape.disabled = false
 		else:
 			attack_shape.disabled = true
+
+	elif is_magic_attacking:
+		# durante magia no hace nada extra
+		pass
+
 	elif not is_hurt:
 		if Input.is_action_just_pressed("attack") and not is_attacking:
 			_start_attack()
+		elif Input.is_action_just_pressed("magic") and not is_magic_attacking: # ⚡ tecla P
+			_start_magic_attack()
 		elif direction.x != 0:
 			if animated_sprite.animation != "run":
 				steps.pitch_scale = randf_range(0.8, 1.0)
@@ -84,14 +103,16 @@ func _physics_process(delta: float) -> void:
 				steps.stop()
 
 	move_and_slide()
-	update_facing_direction()
 
-func update_facing_direction() -> void:
-	if direction.x > 0:
+func _update_attack_area_direction() -> void:
+	if facing_direction > 0:
 		animated_sprite.flip_h = false
-	elif direction.x < 0:
+		attack_area.position = base_attack_area_position
+	else:
 		animated_sprite.flip_h = true
+		attack_area.position = base_attack_area_position + Vector2(-attack_offset, 0)
 
+# --- ATAQUE FÍSICO ---
 func _start_attack() -> void:
 	is_attacking = true
 	velocity = Vector2.ZERO
@@ -104,10 +125,40 @@ func _start_attack() -> void:
 	is_attacking = false
 	attack_shape.disabled = true
 
+# --- ATAQUE MÁGICO ---
+func _start_magic_attack() -> void:
+	is_magic_attacking = true
+	velocity = Vector2.ZERO
+	animated_sprite.play("magic")
+	_spawn_lightning()
+	$Magic.play()
+	if steps.playing:
+		steps.stop()
+
+
+	await animated_sprite.animation_finished
+	is_magic_attacking = false
+
+func _spawn_lightning() -> void:
+	var lightning = lightning_scene.instantiate()
+	get_tree().current_scene.add_child(lightning)
+
+	var horizontal_offset = 70  
+	var offset = Vector2(horizontal_offset, -100)
+
+	if facing_direction < 0:
+		lightning.anim.flip_h = false
+	else:
+		lightning.anim.flip_h = true
+
+	lightning.global_position = global_position + Vector2(horizontal_offset * facing_direction, -160)
+
+	lightning.direction = facing_direction
+
 func _on_attack_area_body_entered(body: Node) -> void:
 	if body.is_in_group("Enemy") and body.has_method("take_damage"):
 		var dir = Vector2(sign(body.global_position.x - global_position.x), 0) * attack_knockback
-		body.take_damage(5, dir)
+		body.take_damage(33, dir)
 
 func take_damage(knockback_dir: Vector2, hit_from_right: bool) -> void:
 	if is_dead:
@@ -123,14 +174,14 @@ func take_damage(knockback_dir: Vector2, hit_from_right: bool) -> void:
 	knockback_timer = knockback_duration
 
 	# reproducir animación hurt solo si no estás atacando
-	if not is_attacking:
+	if not is_attacking and not is_magic_attacking: # ⚡ agregado
 		animated_sprite.play("hurt")
 
 	await get_tree().create_timer(0.1).timeout
 
-	if direction.x == 0 and not is_attacking:
+	if direction.x == 0 and not is_attacking and not is_magic_attacking: # ⚡ agregado
 		animated_sprite.play("idle")
-	elif direction.x != 0 and not is_attacking:
+	elif direction.x != 0 and not is_attacking and not is_magic_attacking: # ⚡ agregado
 		animated_sprite.play("run")
 
 	if Global.coins <= 0:
@@ -182,5 +233,4 @@ func _drop_coin(hit_from_right: bool):
 		return
 
 	var enemy_node = enemies[randi() % enemies.size()]
-	# Lanzar la moneda hacia atrás y luego hacia el enemigo
 	coin.launch(hit_from_right, enemy_node)
