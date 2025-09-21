@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://dwrah6o3ea43a"]
+[gd_scene load_steps=25 format=4 uid="uid://dwrah6o3ea43a"]
 
 [ext_resource type="Script" uid="uid://cy1jfvpk34272" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://b7gqby3jeqjbv" path="res://assets/img/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_0wfyh"]
@@ -20,6 +20,7 @@
 [ext_resource type="AudioStream" uid="uid://dmxfq5vavwy5r" path="res://assets/sound/birds.mp3" id="16_muem4"]
 [ext_resource type="PackedScene" uid="uid://tmd0h4oma52p" path="res://scenes/hut.tscn" id="17_muem4"]
 [ext_resource type="PackedScene" uid="uid://cde1i6dh6q7m7" path="res://scenes/enemy_hut.tscn" id="19_0ld40"]
+[ext_resource type="PackedScene" uid="uid://f45wojucvxx6" path="res://scenes/enemy_2.tscn" id="21_yc10j"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("2_0wfyh")
@@ -625,7 +626,7 @@ centered = false
 [node name="TribeSpawner" type="Node2D" parent="."]
 script = SubResource("GDScript_ya4ey")
 archer_scene = ExtResource("10_choun")
-tribe_size = 8
+tribe_size = 5
 spacing = 45.0
 start_position = Vector2(-900, 325)
 attack_interval = 6.0
@@ -634,9 +635,9 @@ attack_interval = 6.0
 script = ExtResource("11_dp3eg")
 enemy_scene = ExtResource("13_trceg")
 spawn_count = 1
+spawn_interval = 3.0
 spawn_y_range = 3.0
-left_x = -700.0
-right_x = 1700.0
+enemy_hut = NodePath("../EnemyHut")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -654,7 +655,7 @@ transition_time = 30.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
 z_index = 5
-position = Vector2(142, 327)
+position = Vector2(431, 330)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -664,10 +665,7 @@ size_flags_vertical = 0
 
 [node name="PowerUp" parent="." instance=ExtResource("13_gqmmt")]
 z_index = 2
-position = Vector2(905, 336)
-
-[node name="Enemy 1" parent="." instance=ExtResource("13_trceg")]
-position = Vector2(464, 333)
+position = Vector2(905, 332)
 
 [node name="Coin" parent="." instance=ExtResource("14_a8y0u")]
 position = Vector2(331, 327)
@@ -685,7 +683,13 @@ stream = ExtResource("16_muem4")
 autoplay = true
 
 [node name="Hut" parent="." instance=ExtResource("17_muem4")]
-position = Vector2(-900, 272)
+position = Vector2(-1074, 272)
 
 [node name="EnemyHut" parent="." instance=ExtResource("19_0ld40")]
 position = Vector2(2000, 272)
+
+[node name="Enemy2" parent="." instance=ExtResource("21_yc10j")]
+position = Vector2(-400, 327)
+
+[node name="Enemy3" parent="." instance=ExtResource("21_yc10j")]
+position = Vector2(692, 324)

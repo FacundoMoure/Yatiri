@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://dffibcq8yx4ff"]
+
+[ext_resource type="Script" uid="uid://b7kx2c1k3ghrd" path="res://scripts/muralla_enemiga.gd" id="1_0n11m"]
+[ext_resource type="Shader" uid="uid://d2s77gebv4ra8" path="res://shaders/damage.gdshader" id="1_imfvb"]
+[ext_resource type="Texture2D" uid="uid://cu3xboth6hn30" path="res://assets/img/Muralla Enemiga/Muralla_enemiga_Suri_completo.png" id="2_0n11m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lweu"]
+shader = ExtResource("1_imfvb")
+shader_parameter/effect_enabled = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_imfvb"]
+size = Vector2(108, 63)
+
+[node name="Muralla" type="Area2D" groups=["Muralla"]]
+collision_layer = 256
+collision_mask = 64
+script = ExtResource("1_0n11m")
+
+[node name="Muralla" type="Sprite2D" parent="."]
+modulate = Color(0.755386, 0.755386, 0.755386, 1)
+texture_filter = 1
+material = SubResource("ShaderMaterial_7lweu")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_0n11m")
+
+[node name="MurallaCollision" type="CollisionShape2D" parent="."]
+position = Vector2(-20, 21.5)
+shape = SubResource("RectangleShape2D_imfvb")

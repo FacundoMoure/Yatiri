@@ -36,6 +36,7 @@ var knockback_duration: float = 0.2
 func _ready() -> void:
 	base_attack_area_position = attack_area.position
 	attack_area.body_entered.connect(_on_attack_area_body_entered)
+	attack_area.area_entered.connect(_on_attack_area_area_entered)
 	attack_shape.disabled = true
 	_update_attack_area_direction()
 
@@ -127,11 +128,15 @@ func _start_attack() -> void:
 
 # --- ATAQUE MÁGICO ---
 func _start_magic_attack() -> void:
+	if Global.potions <= 0:
+		return
+	
 	is_magic_attacking = true
 	velocity = Vector2.ZERO
 	animated_sprite.play("magic")
 	_spawn_lightning()
 	$Magic.play()
+	Global.remove_potions(1)
 	if steps.playing:
 		steps.stop()
 
@@ -159,6 +164,11 @@ func _on_attack_area_body_entered(body: Node) -> void:
 	if body.is_in_group("Enemy") and body.has_method("take_damage"):
 		var dir = Vector2(sign(body.global_position.x - global_position.x), 0) * attack_knockback
 		body.take_damage(33, dir)
+
+func _on_attack_area_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Muralla") and area.has_method("take_damage"):
+		$AttackHit.play()
+		area.take_damage(10)
 
 func take_damage(knockback_dir: Vector2, hit_from_right: bool) -> void:
 	if is_dead:
