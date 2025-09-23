@@ -166,7 +166,7 @@ func _on_attack_area_body_entered(body: Node) -> void:
 		body.take_damage(33, dir)
 
 func _on_attack_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Muralla") and area.has_method("take_damage"):
+	if area.is_in_group("Muralla Enemiga") and area.has_method("take_damage"):
 		$AttackHit.play()
 		area.take_damage(10)
 

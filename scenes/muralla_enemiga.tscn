@@ -12,7 +12,7 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imfvb"]
 size = Vector2(108, 63)
 
-[node name="Muralla" type="Area2D" groups=["Muralla"]]
+[node name="MurallaEnemiga" type="Area2D" groups=["Muralla Enemiga"]]
 collision_layer = 256
 collision_mask = 64
 script = ExtResource("1_0n11m")

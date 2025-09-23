@@ -78,7 +78,9 @@ magic={
 2d_physics/layer_6="Enemy"
 2d_physics/layer_7="PlayerAttacks"
 2d_physics/layer_8="EnemyAttacks"
-2d_physics/layer_9="EnemyHut"
+2d_physics/layer_9="MurallaEnemiga"
+2d_physics/layer_10="Muralla"
+2d_physics/layer_11="Spear"
 
 [physics]
 

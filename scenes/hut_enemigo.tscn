@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://umlahfsnucks"]
+
+[ext_resource type="PackedScene" uid="uid://dffibcq8yx4ff" path="res://scenes/muralla_enemiga.tscn" id="1_cvp08"]
+[ext_resource type="Script" uid="uid://h8srdepcwyf3" path="res://scripts/hut_enemigo.gd" id="1_xwguj"]
+[ext_resource type="Texture2D" uid="uid://dhvxcks6oy3vy" path="res://assets/img/hut.png" id="2_1h3n2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwguj"]
+
+[sub_resource type="Gradient" id="Gradient_1h3n2"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.619608)
+
+[node name="HutEnemigo" type="Area2D"]
+script = ExtResource("1_xwguj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.448067, 0.448067, 0.448067, 1)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_1h3n2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xwguj")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-4, 100)
+amount = 40
+lifetime = 0.8
+speed_scale = 0.2
+randomness = 1.0
+lifetime_randomness = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(80, 1)
+spread = 84.31
+gravity = Vector2(0, -800)
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_1h3n2")
+
+[node name="MurallaEnemiga" parent="." instance=ExtResource("1_cvp08")]
+position = Vector2(-417, 49)

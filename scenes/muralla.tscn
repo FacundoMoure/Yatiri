@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctfrf0mmef6kt"]
+
+[ext_resource type="PackedScene" uid="uid://dffibcq8yx4ff" path="res://scenes/muralla_enemiga.tscn" id="1_5gs7b"]
+[ext_resource type="Script" uid="uid://xfpldfht0gmh" path="res://scripts/muralla.gd" id="2_r26bq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5gs7b"]
+load_path = "res://.godot/imported/Muralla_enemiga_Suri_completo.png-ab71374d7513aff38cdeba9808825f4f.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r26bq"]
+size = Vector2(84, 89)
+
+[node name="Muralla" groups=["Muralla"] instance=ExtResource("1_5gs7b")]
+collision_layer = 512
+collision_mask = 1024
+script = ExtResource("2_r26bq")
+
+[node name="Muralla" parent="." index="0"]
+modulate = Color(1, 1, 1, 1)
+texture = SubResource("CompressedTexture2D_5gs7b")
+flip_h = true
+
+[node name="MurallaCollision" parent="." index="1"]
+position = Vector2(18, 8.5)
+shape = SubResource("RectangleShape2D_r26bq")

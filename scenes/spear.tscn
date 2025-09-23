@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dr4q58scu2r1k"]
+
+[ext_resource type="Texture2D" uid="uid://bggy30oax0e8t" path="res://assets/img/Spear Native/lanza.png" id="1_43rot"]
+[ext_resource type="Script" uid="uid://csd1ld5pyg3mo" path="res://scripts/spear.gd" id="1_efxkm"]
+[ext_resource type="AudioStream" uid="uid://bsxkfumbm0kjn" path="res://assets/sound/arrow_hit.wav" id="2_uf2bl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uf2bl"]
+size = Vector2(17, 2)
+
+[sub_resource type="Gradient" id="Gradient_efxkm"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_un1d1"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Spear" type="Area2D"]
+collision_layer = 1024
+collision_mask = 513
+script = ExtResource("1_efxkm")
+min_time_to_hit = 0.3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -1)
+shape = SubResource("RectangleShape2D_uf2bl")
+
+[node name="Spear" type="Sprite2D" parent="."]
+texture_filter = 1
+rotation = -0.750492
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_43rot")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 12
+lifetime = 0.2
+preprocess = 0.3
+speed_scale = 1.2
+randomness = 1.0
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 6.0
+spread = 60.0
+gravity = Vector2(0, 0)
+color = Color(1, 0.337255, 0, 1)
+color_ramp = SubResource("Gradient_efxkm")
+hue_variation_curve = SubResource("Curve_un1d1")
+
+[node name="Spear_Impact" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_uf2bl")
+volume_db = -14.0

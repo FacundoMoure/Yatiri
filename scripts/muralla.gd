@@ -10,7 +10,7 @@ var flash_counter: int = 0
 var flash_timer: Timer
 
 func _ready() -> void:
-	remove_from_group("Muralla")
+	remove_from_group("Muralla Enemiga")
 	flash_timer = Timer.new()
 	flash_timer.one_shot = false
 	add_child(flash_timer)

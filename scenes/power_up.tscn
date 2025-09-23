@@ -22,5 +22,5 @@ shape = SubResource("RectangleShape2D_ig136")
 
 [node name="PowerUp" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_6iuya")
-volume_db = -10.0
+volume_db = -15.0
 pitch_scale = 0.9

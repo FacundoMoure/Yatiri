@@ -26,7 +26,7 @@ color = Color(1, 0, 0, 1)
 color_ramp = SubResource("Gradient_t5w7m")
 
 [node name="MurallaEnemiga" parent="." index="3" instance=ExtResource("3_knnnk")]
-position = Vector2(-114, 35)
+position = Vector2(-457, 38)
 
-[node name="Muralla" parent="." index="4"]
-texture = null
+[node name="MurallaTribu" parent="." index="4"]
+visible = false

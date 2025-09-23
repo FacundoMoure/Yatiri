@@ -1,9 +1,12 @@
-[gd_scene load_steps=28 format=3 uid="uid://f45wojucvxx6"]
+[gd_scene load_steps=32 format=3 uid="uid://f45wojucvxx6"]
 
 [ext_resource type="Script" uid="uid://bb4oaaat0nymm" path="res://scripts/enemy_2.gd" id="1_hqy2m"]
 [ext_resource type="Texture2D" uid="uid://b46lc5b7jxtko" path="res://assets/img/Spear Native/attack.png" id="2_a4ywr"]
 [ext_resource type="Texture2D" uid="uid://belofc5lirui2" path="res://assets/img/Spear Native/idel.png" id="3_k4auq"]
 [ext_resource type="Texture2D" uid="uid://vxedo3q8onw2" path="res://assets/img/Spear Native/run.png" id="4_fdqbe"]
+[ext_resource type="AudioStream" uid="uid://bi5wbna2aygui" path="res://assets/sound/footstep.wav" id="5_a2yeo"]
+[ext_resource type="AudioStream" uid="uid://43hb83e5omms" path="res://assets/sound/attack.wav" id="6_hvrhm"]
+[ext_resource type="AudioStream" uid="uid://bj2543vduipa2" path="res://assets/sound/attack_hit.wav" id="7_lxmbh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a2yeo"]
 atlas = ExtResource("2_a4ywr")
@@ -174,19 +177,50 @@ animations = [{
 radius = 12.0
 height = 44.0
 
-[node name="Enemy2" type="CharacterBody2D"]
-collision_layer = 32
-collision_mask = 2
-script = ExtResource("1_hqy2m")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a2yeo"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Enemy2" type="CharacterBody2D"]
+position = Vector2(0, -5)
+collision_layer = 32
+collision_mask = 80
+script = ExtResource("1_hqy2m")
+health = 99
+walk_speed = 120.0
+steps_volume_db = -28.0
+attack_range = 300.0
+metadata/_edit_group_ = true
+
+[node name="Enemy2" type="AnimatedSprite2D" parent="."]
 z_index = 2
 texture_filter = 1
 scale = Vector2(0.1, 0.1)
 sprite_frames = SubResource("SpriteFrames_lxmbh")
 animation = &"attack"
 autoplay = "idle"
+frame = 6
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(4, 1)
 shape = SubResource("CapsuleShape2D_veajb")
+
+[node name="Steps" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_a2yeo")
+volume_db = -20.0
+pitch_scale = 0.6
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_hvrhm")
+volume_db = -4.0
+pitch_scale = 0.6
+
+[node name="AttackHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_lxmbh")
+volume_db = -12.0
+
+[node name="AttackArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("RectangleShape2D_a2yeo")
+
+[node name="SpearPosition" type="Node2D" parent="."]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://tmd0h4oma52p"]
 
 [ext_resource type="Texture2D" uid="uid://dhvxcks6oy3vy" path="res://assets/img/hut.png" id="1_n3evu"]
-[ext_resource type="Texture2D" uid="uid://cu3xboth6hn30" path="res://assets/img/Muralla Enemiga/Muralla_enemiga_Suri_completo.png" id="2_lbxpc"]
+[ext_resource type="PackedScene" uid="uid://bxwyycl75xmc8" path="res://scenes/muralla_tribu.tscn" id="2_lbxpc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lbxpc"]
 size = Vector2(102, 83)
@@ -37,8 +37,5 @@ gravity = Vector2(0, -800)
 scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_n3evu")
 
-[node name="Muralla" type="Sprite2D" parent="."]
-position = Vector2(119, 37)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_lbxpc")
-flip_h = true
+[node name="MurallaTribu" parent="." instance=ExtResource("2_lbxpc")]
+position = Vector2(366, 37)
