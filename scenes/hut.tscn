@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://tmd0h4oma52p"]
 
-[ext_resource type="Texture2D" uid="uid://dhvxcks6oy3vy" path="res://assets/img/hut.png" id="1_n3evu"]
+[ext_resource type="Texture2D" uid="uid://dwa4wgbj6fonh" path="res://assets/img/Yatiri/Escenario/base_enemiga.png" id="1_lbxpc"]
 [ext_resource type="PackedScene" uid="uid://bxwyycl75xmc8" path="res://scenes/muralla_tribu.tscn" id="2_lbxpc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lbxpc"]
@@ -14,9 +14,9 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.619608)
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.558287, 0.558287, 0.558287, 1)
 texture_filter = 1
-position = Vector2(-5.96046e-08, -13)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("1_n3evu")
+position = Vector2(-101, -15)
+scale = Vector2(3, 3)
+texture = ExtResource("1_lbxpc")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -24,14 +24,14 @@ position = Vector2(0, 21.5)
 shape = SubResource("RectangleShape2D_lbxpc")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(-3, 86)
+position = Vector2(-78, 85)
 amount = 40
 lifetime = 0.8
 speed_scale = 0.2
 randomness = 1.0
 lifetime_randomness = 0.5
 emission_shape = 3
-emission_rect_extents = Vector2(80, 1)
+emission_rect_extents = Vector2(200, 1)
 spread = 84.31
 gravity = Vector2(0, -800)
 scale_amount_max = 2.0
@@ -39,3 +39,4 @@ color_ramp = SubResource("Gradient_n3evu")
 
 [node name="MurallaTribu" parent="." instance=ExtResource("2_lbxpc")]
 position = Vector2(366, 37)
+health = 300

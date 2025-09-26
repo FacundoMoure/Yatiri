@@ -1,19 +1,26 @@
 extends Node2D
 
 # -------------------- EXPORTS --------------------
-@export var enemy_hut: NodePath                # referencia al nodo hut
-@export var spawn_y: float = 333.0             # posición base Y
-@export var spawn_y_range: float = 5.0         # variación en Y
-@export var initial_delay: float = 15.0        # tiempo antes del primer spawn
+@export var enemy_hut: NodePath
+@export var spawn_y: float = 333.0
+@export var spawn_y_range: float = 5.0
+@export var initial_delay: float = 15.0
 
-@export var max_enemies_per_wave: int = 5      # cantidad máxima de enemigos por oleada
-@export var spawn_interval: float = 3.0        # tiempo entre cada spawn de la misma oleada
-@export var wave_interval: float = 10.0        # tiempo entre oleadas
+@export var max_enemies_per_wave: int = 5
+@export var spawn_interval: float = 3.0
+@export var wave_interval: float = 10.0
+@export var enemy2_y_offset: float = -20.0   # lo ajustás desde el editor
 
-@export var enemy_scenes: Array = [            # lista de enemigos posibles
+
+@export var enemy_scenes: Array = [
+	preload("res://scenes/enemy_1.tscn"),
 	preload("res://scenes/enemy_1.tscn"),
 	preload("res://scenes/enemy_2.tscn")
 ]
+
+# 👉 enemigos "idle" iniciales
+@export var idle_enemies_min: int = 3
+@export var idle_enemies_max: int = 6
 
 # -------------------- VARIABLES INTERNAS --------------------
 var _hut_ref: Node2D
@@ -32,6 +39,9 @@ func _ready() -> void:
 	add_child(_spawn_timer)
 	_spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 
+	# Spawnear enemigos idle iniciales
+	_spawn_idle_enemies()
+
 	# Iniciar con delay inicial
 	_spawn_timer.start(initial_delay)
 
@@ -42,17 +52,14 @@ func _on_spawn_timer_timeout() -> void:
 		return
 
 	if not _is_wave_active:
-		# Inicia nueva oleada
-		_current_wave_enemies = randi() % max_enemies_per_wave + 1  # random entre 1 y max
+		_current_wave_enemies = randi() % max_enemies_per_wave + 1
 		_is_wave_active = true
 
 	if _current_wave_enemies > 0:
-		# Elegir enemigo random
 		var scene: PackedScene = enemy_scenes[randi() % enemy_scenes.size()]
 		var enemy = scene.instantiate()
 		add_child(enemy)
 
-		# Posición spawn (X fijo, Y random)
 		var spawn_x: float = _hut_ref.global_position.x
 		var spawn_y_random: float = spawn_y + randf_range(-spawn_y_range, spawn_y_range)
 		enemy.global_position = Vector2(spawn_x, spawn_y_random)
@@ -60,9 +67,39 @@ func _on_spawn_timer_timeout() -> void:
 		_current_wave_enemies -= 1
 
 		if _current_wave_enemies > 0:
-			# spawn siguiente enemigo de la misma oleada
 			_spawn_timer.start(spawn_interval)
 		else:
-			# oleada terminada, esperar para próxima
 			_is_wave_active = false
 			_spawn_timer.start(wave_interval)
+
+# -------------------- SPAWN INICIALES --------------------
+func _spawn_idle_enemies() -> void:
+	if _hut_ref == null:
+		return
+
+	var count := randi() % (idle_enemies_max - idle_enemies_min + 1) + idle_enemies_min
+	var base_x: float = _hut_ref.global_position.x - 100.0
+
+	await get_tree().process_frame  
+
+	for i in count:
+		var enemy_scene: PackedScene = preload("res://scenes/enemy_2.tscn")
+		var enemy = enemy_scene.instantiate()
+		add_child(enemy)
+
+		var offset_between := randf_range(60.0, 80.0)
+		var spawn_x: float = base_x - (i * offset_between)
+		var spawn_y_random: float = spawn_y + randf_range(-spawn_y_range, spawn_y_range)
+
+		# 👇 si es enemy_2, aplicamos offset especial en Y
+		if enemy_scene.resource_path.ends_with("enemy_2.tscn"):
+			spawn_y_random += enemy2_y_offset
+
+		enemy.global_position = Vector2(spawn_x, spawn_y_random)
+
+		if enemy.has_method("set_state"):
+			enemy.set_state(enemy.State.IDLE)
+		elif "state" in enemy:
+			enemy.state = enemy.State.IDLE
+
+		await get_tree().create_timer(randf_range(0.2, 0.6)).timeout

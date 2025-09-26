@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://bkkodudqtsrih"]
+
+[ext_resource type="Texture2D" uid="uid://cao2hu7accqv6" path="res://assets/img/Yatiri/Escenario/algarrobo_1.png" id="1_ow7wg"]
+[ext_resource type="Texture2D" uid="uid://b87n2m06735xw" path="res://assets/img/Yatiri/Escenario/algarrobo_2.png" id="2_qynvb"]
+[ext_resource type="Texture2D" uid="uid://bu84r2ubraiqj" path="res://assets/img/Yatiri/Escenario/algarrobo_3.png" id="3_q06i8"]
+[ext_resource type="Texture2D" uid="uid://bwyn6orkds1im" path="res://assets/img/Cactus_Sprite_Sheet.png" id="4_aiqg4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcq5o"]
+
+[node name="Flora" type="Area2D"]
+z_index = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vcq5o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.733005, 0.733005, 0.733005, 1)
+texture_filter = 1
+position = Vector2(-455, 229)
+scale = Vector2(2, 2)
+texture = ExtResource("1_ow7wg")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+modulate = Color(0.655601, 0.655601, 0.655601, 1)
+texture_filter = 1
+position = Vector2(1089, 227)
+scale = Vector2(2, 2)
+texture = ExtResource("2_qynvb")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(362, 228)
+scale = Vector2(2, 2)
+texture = ExtResource("3_q06i8")
+flip_h = true
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture = ExtResource("4_aiqg4")

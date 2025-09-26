@@ -1,7 +1,7 @@
 extends Node
 
-var coins: int = 5
-var potions: int = 5
+var coins: int = 15
+var potions: int = 15
 var tribe_count: int = 0   # 👈 miembros de la tribu actuales
 
 signal coins_changed(new_value)

@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://d2s77gebv4ra8" path="res://shaders/damage.gdshader" id="1_ism1i"]
 [ext_resource type="Script" uid="uid://ks0441tp47hn" path="res://scripts/muralla_tribu.gd" id="1_yldxc"]
-[ext_resource type="Texture2D" uid="uid://cu3xboth6hn30" path="res://assets/img/Muralla Enemiga/Muralla_enemiga_Suri_completo.png" id="2_yldxc"]
+[ext_resource type="Texture2D" uid="uid://dd6wm8kdppytc" path="res://assets/img/Yatiri/Escenario/Empaladiza.png" id="3_yldxc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rdskk"]
 shader = ExtResource("1_ism1i")
@@ -10,21 +10,23 @@ shader_parameter/effect_enabled = false
 shader_parameter/flash_color = Color(1, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1e087"]
-size = Vector2(103, 74)
+size = Vector2(103, 118)
 
 [node name="MurallaTribu" type="Area2D" groups=["Muralla"]]
+z_index = -1
 collision_layer = 512
 collision_mask = 1024
 script = ExtResource("1_yldxc")
-health = 200
+health = 500
 
 [node name="Muralla" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_rdskk")
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_yldxc")
+position = Vector2(16, -8)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("3_yldxc")
 flip_h = true
 
 [node name="MurallaCollision" type="CollisionShape2D" parent="."]
-position = Vector2(11.5, 16)
+position = Vector2(11.5, -6)
 shape = SubResource("RectangleShape2D_1e087")
