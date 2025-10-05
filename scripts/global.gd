@@ -1,12 +1,12 @@
 extends Node
 
-var coins: int = 15
+var coins: int = 20
 var potions: int = 15
-var tribe_count: int = 0   # 👈 miembros de la tribu actuales
+var tribe_count: int = 0   
 
 signal coins_changed(new_value)
 signal potions_changed(new_value)
-signal tribe_changed(new_value)   # 👈 señal nueva
+signal tribe_changed(new_value)  
 
 # --- MONEDAS ---
 func add_coins(amount: int) -> void:

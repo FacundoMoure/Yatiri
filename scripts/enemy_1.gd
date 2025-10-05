@@ -59,7 +59,6 @@ func _get_target_with_priority() -> Node:
 	
 	return null
 
-# -------------------- PHYSICS PROCESS --------------------
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
@@ -164,6 +163,14 @@ func set_state(new_state: State) -> void:
 			$Steps.stop()
 			attack_area.monitoring = false
 			remove_from_group("Enemy")
+			
+			var tween := create_tween()
+			tween.tween_interval(5.0)  
+			tween.tween_property(animated_sprite, "modulate:a", 0.0, 2.5) 
+			tween.tween_callback(Callable(self, "_on_fade_out_finished"))
+			
+func _on_fade_out_finished() -> void:
+	queue_free()
 
 # -------------------- PRE ATTACK --------------------
 func _pre_attack_timer() -> void:

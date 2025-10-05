@@ -153,7 +153,14 @@ func set_state(new_state: State) -> void:
 			$Steps.stop()
 			attack_area.monitoring = false
 			remove_from_group("Enemy")
-
+			
+			var tween := create_tween()
+			tween.tween_interval(6.0)  
+			tween.tween_property(animated_sprite, "modulate:a", 0.0, 3.0)  
+			tween.tween_callback(Callable(self, "_on_fade_out_finished"))
+			
+func _on_fade_out_finished() -> void:
+	queue_free()
 
 # -------------------- ATAQUE --------------------
 func _on_frame_changed() -> void:

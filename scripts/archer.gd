@@ -5,7 +5,7 @@ var attack_cooldown := false
 var preloadArrow = preload("res://scenes/arrow.tscn")
 
 func _ready() -> void:
-	remove_from_group("Player")
+	#remove_from_group("Player")
 	# Idle inicial con frame aleatorio
 	animated_sprite.play("idle")
 	animated_sprite.frame = randi() % animated_sprite.sprite_frames.get_frame_count("idle")

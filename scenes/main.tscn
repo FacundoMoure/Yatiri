@@ -627,19 +627,18 @@ centered = false
 [node name="TribeSpawner" type="Node2D" parent="."]
 script = SubResource("GDScript_ya4ey")
 archer_scene = ExtResource("10_choun")
-tribe_size = 5
-spacing = 45.0
-start_position = Vector2(-1000, 325)
-attack_interval = 6.0
+tribe_size = 4
+start_position = Vector2(-1200, 325)
+attack_interval = 10.0
 
 [node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("11_dp3eg")
 enemy_hut = NodePath("../HutEnemigo")
 spawn_y = 332.0
 spawn_y_range = 1.0
-initial_delay = 50.0
-max_enemies_per_wave = 4
-spawn_interval = 6.0
+initial_delay = 10.0
+max_enemies_per_wave = 2
+spawn_interval = 10.0
 wave_interval = 20.0
 enemy2_y_offset = -5.0
 idle_enemies_min = 1
