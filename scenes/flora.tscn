@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vcq5o"]
 
 [node name="Flora" type="Area2D"]
-z_index = -1
+z_index = -6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vcq5o")

@@ -10,6 +10,9 @@ size = Vector2(102, 83)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.619608)
 
 [node name="Hut" type="Area2D"]
+z_index = -4
+collision_layer = 513
+collision_mask = 33
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.558287, 0.558287, 0.558287, 1)
@@ -39,4 +42,4 @@ color_ramp = SubResource("Gradient_n3evu")
 
 [node name="MurallaTribu" parent="." instance=ExtResource("2_lbxpc")]
 position = Vector2(366, 37)
-health = 300
+health = 40

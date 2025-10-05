@@ -107,7 +107,7 @@ func do_attack() -> void:
 		$Attack.play()
 
 	# Esperamos cooldown antes de poder atacar de nuevo
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(10.0).timeout
 
 	# Reiniciamos cooldown
 	attack_cooldown = false

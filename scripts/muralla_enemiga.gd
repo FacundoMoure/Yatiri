@@ -10,6 +10,7 @@ var flash_counter: int = 0
 var flash_timer: Timer
 
 func _ready() -> void:
+	$Explotion.hide()
 	remove_from_group("Muralla")
 	flash_timer = Timer.new()
 	flash_timer.one_shot = false
@@ -43,4 +44,13 @@ func _on_flash_timer_timeout() -> void:
 			muralla_1.material.set_shader_parameter("effect_enabled", false)
 
 func _on_destroyed() -> void:
+	await get_tree().create_timer(0.1).timeout
+	muralla_1.hide()
+	muralla_collision.disabled = true
+	$Muralla2.hide()
+	$Muralla3.hide()
+	$Explotion.show()
+	$Explotion.play("default")
+	$StaticBody2D/CollisionShape2D.disabled = true
+	await $Explotion.animation_finished
 	queue_free()

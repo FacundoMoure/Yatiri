@@ -38,7 +38,7 @@ scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_1h3n2")
 
 [node name="MurallaEnemiga" parent="." instance=ExtResource("1_cvp08")]
-position = Vector2(-416, 39)
+position = Vector2(-547, 39)
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 visible = false

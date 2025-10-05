@@ -10,7 +10,7 @@ enum State { WALK_FORWARD, PRE_ATTACK, ATTACK, WALK_BACK, IDLE, HURT, DEAD }
 @export var steps_volume_db: float = -23.0
 @export var attack_range: float = 50.0
 @export var pre_attack_delay: float = 0.3
-@export var idle_duration: float = 5.0   # tiempo quieto después del walk_back
+@export var idle_duration: float = 5.0
 @export var attack_offset: float = 50.0
 
 @onready var animated_sprite: AnimatedSprite2D = $Enemy
@@ -31,28 +31,55 @@ func _ready() -> void:
 	animated_sprite.animation_finished.connect(_on_animation_finished)
 	animated_sprite.frame_changed.connect(_on_frame_changed)
 
+# -------------------- DETECCIÓN DE OBJETIVO CON PRIORIDAD --------------------
+func _get_target_with_priority() -> Node:
+	# Primero muralla
+	var murallas = get_tree().get_nodes_in_group("Muralla")
+	if not murallas.is_empty():
+		var closest = murallas.front()
+		var min_dist = global_position.distance_to(closest.global_position)
+		for m in murallas:
+			var dist = global_position.distance_to(m.global_position)
+			if dist < min_dist:
+				min_dist = dist
+				closest = m
+		return closest
+	
+	# Si no hay muralla, buscar player
+	var players = get_tree().get_nodes_in_group("Player")
+	if not players.is_empty():
+		var closest = players.front()
+		var min_dist = global_position.distance_to(closest.global_position)
+		for p in players:
+			var dist = global_position.distance_to(p.global_position)
+			if dist < min_dist:
+				min_dist = dist
+				closest = p
+		return closest
+	
+	return null
 
-
+# -------------------- PHYSICS PROCESS --------------------
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
 
 	if state == State.WALK_FORWARD:
-		var player_list = get_tree().get_nodes_in_group("Player")
-		if not player_list.is_empty():
-			var player = player_list.front()
-			var new_direction = sign(player.global_position.x - global_position.x)
+		var target = _get_target_with_priority()
+		if target:
+			var new_direction = sign(target.global_position.x - global_position.x)
 			if new_direction == 0:
 				new_direction = 1
-			if new_direction != walk_direction:
-				walk_direction = new_direction
-				animated_sprite.flip_h = walk_direction < 0
-				_update_attack_area_direction()
+			walk_direction = new_direction
+			animated_sprite.flip_h = walk_direction < 0
+			_update_attack_area_direction()
 
 			if animated_sprite.animation != "walk":
 				animated_sprite.play("walk")
 
-			if global_position.distance_to(player.global_position) <= attack_range:
+			# 🔹 Atacar si está dentro del rango o si es muralla y tocamos la pared
+			if global_position.distance_to(target.global_position) <= attack_range \
+			   or (target.is_in_group("Muralla") and is_on_wall()):
 				set_state(State.PRE_ATTACK)
 
 	# Velocidad según estado
@@ -66,7 +93,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 # -------------------- ESTADOS --------------------
-
 func set_state(new_state: State) -> void:
 	if state == new_state:
 		return
@@ -74,10 +100,9 @@ func set_state(new_state: State) -> void:
 
 	match state:
 		State.WALK_FORWARD:
-			var player_list = get_tree().get_nodes_in_group("Player")
-			if not player_list.is_empty():
-				var player = player_list.front()
-				var new_direction = sign(player.global_position.x - global_position.x)
+			var target = _get_target_with_priority()
+			if target:
+				var new_direction = sign(target.global_position.x - global_position.x)
 				if new_direction == 0:
 					new_direction = 1
 				walk_direction = new_direction
@@ -117,11 +142,9 @@ func set_state(new_state: State) -> void:
 			attack_area.monitoring = false
 			animated_sprite.play("idle")
 
-			# 👇 nuevo: mirar hacia el Player al entrar en idle
-			var player_list = get_tree().get_nodes_in_group("Player")
-			if not player_list.is_empty():
-				var player = player_list.front()
-				var dir = sign(player.global_position.x - global_position.x)
+			var target = _get_target_with_priority()
+			if target:
+				var dir = sign(target.global_position.x - global_position.x)
 				if dir != 0:
 					walk_direction = dir
 					animated_sprite.flip_h = walk_direction < 0
@@ -143,33 +166,30 @@ func set_state(new_state: State) -> void:
 			remove_from_group("Enemy")
 
 # -------------------- PRE ATTACK --------------------
-
 func _pre_attack_timer() -> void:
 	await get_tree().create_timer(pre_attack_delay).timeout
 	if state == State.PRE_ATTACK:
 		set_state(State.ATTACK)
 
 # -------------------- ATAQUE --------------------
-
 func _on_frame_changed() -> void:
 	if state == State.ATTACK and animated_sprite.frame == 2:
-		for body in attack_area.get_overlapping_bodies():
-			
-			if body.is_in_group("Player") and body.name == "Player" and body.has_method("take_damage"):
-				
-				var dir = Vector2(sign(body.global_position.x - global_position.x), 0) * (attack_knockback / 2)
-				var hit_from_right = body.global_position.x < global_position.x
-				body.take_damage(dir, hit_from_right)
-
-				await get_tree().create_timer(0.1).timeout
-				if body.has_method("camera_shake"):
-					body.camera_shake(0.4, 3)
+		var bodies = attack_area.get_overlapping_bodies()
+		var areas = attack_area.get_overlapping_areas()
+		for body in bodies + areas:
+			if (body.is_in_group("Player") or body.is_in_group("Muralla")) and body.has_method("take_damage"):
+				if body.is_in_group("Player"):
+					var dir = Vector2(sign(body.global_position.x - global_position.x), 0) * (attack_knockback / 2)
+					var hit_from_right = body.global_position.x < global_position.x
+					body.take_damage(dir, hit_from_right)
+				else:
+					# Muralla recibe daño directo
+					body.take_damage(10)
 
 func _on_animation_finished() -> void:
 	if animated_sprite.animation == "attack" and state == State.ATTACK:
 		attack_area.monitoring = false
 		set_state(State.WALK_BACK)
-
 	elif animated_sprite.animation == "hurt" and state == State.HURT:
 		if health <= 0:
 			set_state(State.DEAD)
@@ -179,14 +199,12 @@ func _on_animation_finished() -> void:
 			set_state(State.WALK_FORWARD)
 
 # -------------------- WALK BACK --------------------
-
 func _start_walk_back_timer() -> void:
 	await get_tree().create_timer(walk_duration).timeout
 	if not is_dead:
 		set_state(State.IDLE)
 
 # -------------------- IDLE --------------------
-
 func _start_idle_timer() -> void:
 	idle_timer_active = true
 	await get_tree().create_timer(idle_duration).timeout
@@ -195,7 +213,6 @@ func _start_idle_timer() -> void:
 		set_state(State.WALK_FORWARD)
 
 # -------------------- DAMAGE --------------------
-
 func take_damage(amount: int, knockback_dir: Vector2, is_arrow_attack: bool = false) -> void:
 	if health <= 0 or is_dead or hurt_cooldown:
 		return
@@ -208,7 +225,6 @@ func take_damage(amount: int, knockback_dir: Vector2, is_arrow_attack: bool = fa
 	flash_white()
 	await get_tree().create_timer(0.3).timeout
 	hurt_cooldown = false
-	# el cambio de estado lo maneja _on_animation_finished
 
 func flash_white() -> void:
 	if flashing:
@@ -224,14 +240,12 @@ func _reset_attack_sound_cooldown() -> void:
 	await get_tree().create_timer(3.0).timeout
 	can_attack_sound = true
 
-# -------------------- NUEVO --------------------
+# -------------------- ACTUALIZAR ATTACK AREA --------------------
 func _update_attack_area_direction() -> void:
-	var offset = 50.0  # distancia extra solo al mirar a la derecha
+	var offset = 50.0
 	if walk_direction > 0:
-		# mirando derecha → posición base + offset
 		attack_area.position = base_attack_area_position + Vector2(offset, 0)
 	else:
-		# mirando izquierda → posición base (la del editor)
 		attack_area.position = base_attack_area_position
 
 func face_direction(looking_right: bool) -> void:
@@ -242,7 +256,6 @@ func face_direction(looking_right: bool) -> void:
 		walk_direction = -1
 		animated_sprite.flip_h = true
 	
-	# Actualizar AttackArea según lado
 	var offset = 50.0
 	if walk_direction > 0:
 		attack_area.position = base_attack_area_position + Vector2(offset, 0)

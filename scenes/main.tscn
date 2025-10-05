@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://dwrah6o3ea43a"]
+[gd_scene load_steps=25 format=4 uid="uid://dwrah6o3ea43a"]
 
 [ext_resource type="Script" uid="uid://cy1jfvpk34272" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://b7gqby3jeqjbv" path="res://assets/img/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_0wfyh"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://tmd0h4oma52p" path="res://scenes/hut.tscn" id="17_muem4"]
 [ext_resource type="PackedScene" uid="uid://umlahfsnucks" path="res://scenes/hut_enemigo.tscn" id="19_0ld40"]
 [ext_resource type="PackedScene" uid="uid://bkkodudqtsrih" path="res://scenes/flora.tscn" id="20_gqmmt"]
+[ext_resource type="PackedScene" uid="uid://f45wojucvxx6" path="res://scenes/enemy_2.tscn" id="22_jscy8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("2_0wfyh")
@@ -510,7 +511,7 @@ texture = ExtResource("2_0wfyh")
 
 [sub_resource type="TileSet" id="TileSet_jyhfs"]
 physics_layer_0/collision_layer = 1
-physics_layer_0/collision_mask = 54
+physics_layer_0/collision_mask = 1078
 sources/0 = SubResource("TileSetAtlasSource_sugp2")
 
 [sub_resource type="GDScript" id="GDScript_ya4ey"]
@@ -641,6 +642,8 @@ max_enemies_per_wave = 4
 spawn_interval = 6.0
 wave_interval = 20.0
 enemy2_y_offset = -5.0
+idle_enemies_min = 1
+idle_enemies_max = 3
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -657,8 +660,7 @@ night_duration = 150.0
 transition_time = 30.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-z_index = 5
-position = Vector2(108, 330)
+position = Vector2(-573, 330)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -679,13 +681,13 @@ position = Vector2(387, 327)
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_jbj1t")
 volume_db = -10.0
-autoplay = true
 
 [node name="Sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("16_muem4")
 autoplay = true
 
 [node name="Hut" parent="." instance=ExtResource("17_muem4")]
+z_index = -2
 position = Vector2(-1074, 272)
 
 [node name="HutEnemigo" parent="." instance=ExtResource("19_0ld40")]
@@ -693,3 +695,6 @@ position = Vector2(2000, 259)
 
 [node name="Flora" parent="." instance=ExtResource("20_gqmmt")]
 position = Vector2(61, 27)
+
+[node name="Enemy2" parent="." instance=ExtResource("22_jscy8")]
+position = Vector2(-76, 332)

@@ -15,7 +15,8 @@ var vel: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	monitoring = true
 	connect("area_entered", Callable(self, "_on_area_entered"))
-
+	connect("body_entered", Callable(self, "_on_body_entered"))
+	
 func _physics_process(delta: float) -> void:
 	vel.y += fall_gravity * delta
 	global_position += vel * delta
@@ -23,9 +24,6 @@ func _physics_process(delta: float) -> void:
 	if vel.length() > 0.1:
 		rotation = vel.angle()
 
-# ----------------------------
-# Colisiones
-# ----------------------------
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Muralla") and area.has_method("take_damage"):
 		if $Spear_Impact: $Spear_Impact.play()
@@ -35,18 +33,27 @@ func _on_area_entered(area: Area2D) -> void:
 		await get_tree().create_timer(0.2).timeout
 		queue_free()
 
-	elif area.is_in_group("Ground"):
+
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group("Player") and body.has_method("take_damage"):
+		if $Spear_Impact: $Spear_Impact.play()
 		if $Spear: $Spear.visible = false
-		if $CPUParticles2D:
-			$CPUParticles2D.one_shot = true
-			$CPUParticles2D.emitting = false
-			$CPUParticles2D.speed_scale = 0
+		if $CPUParticles2D: $CPUParticles2D.visible = false
+
+		var knockback_dir = Vector2(sign(body.global_position.x - global_position.x), 0)
+		body.take_damage(knockback_dir, true)
+
+		await get_tree().create_timer(0.2).timeout
+		queue_free()
+		
+	elif body.is_in_group("Ground"):
+		$Spear.visible = false
+		$CPUParticles2D.one_shot = true
+		$CPUParticles2D.emitting = false
+		$CPUParticles2D.speed_scale = 0
 		await get_tree().create_timer(0.3).timeout
 		queue_free()
 
-# ----------------------------
-# API pública
-# ----------------------------
 func launch_towards_wall(wall: Node2D, time_to_hit: float = -1.0) -> void:
 	if not wall or not wall.is_inside_tree():
 		return

@@ -16,9 +16,11 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Spear" type="Area2D"]
+z_index = 2
 collision_layer = 1024
-collision_mask = 513
+collision_mask = 515
 script = ExtResource("1_efxkm")
+fall_gravity = 1500.0
 min_time_to_hit = 0.3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -32,17 +34,16 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_43rot")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-amount = 12
-lifetime = 0.2
+amount = 20
+lifetime = 0.4
 preprocess = 0.3
 speed_scale = 1.2
 randomness = 1.0
 lifetime_randomness = 0.2
 emission_shape = 1
-emission_sphere_radius = 6.0
+emission_sphere_radius = 8.0
 spread = 60.0
 gravity = Vector2(0, 0)
-color = Color(1, 0.337255, 0, 1)
 color_ramp = SubResource("Gradient_efxkm")
 hue_variation_curve = SubResource("Curve_un1d1")
 

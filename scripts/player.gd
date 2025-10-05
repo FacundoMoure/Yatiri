@@ -1,9 +1,6 @@
 extends CharacterBody2D
 class_name Player
 
-@export var speed: float = 200
-@export var walk_slow_speed: float = 100.0
-@export var walk_slowdown_after: float = 6.0
 @export var attack_knockback: float = 25.0
 @export var health: int = 100
 @export var flash_duration: float = 0.4
@@ -16,8 +13,19 @@ class_name Player
 @onready var steps: AudioStreamPlayer2D = $Steps
 @onready var attack_sound: AudioStreamPlayer = $Attack
 @onready var camera: Camera2D = $Camera2D
+@onready var exhala: AnimatedSprite2D = $Exhala
 @onready var coin_scene: PackedScene = preload("res://scenes/dropped_coin.tscn")
 @export var lightning_scene: PackedScene = preload("res://scenes/lightning.tscn") # ⚡ nuevo
+
+# --- NUEVAS VARIABLES ---
+@export var run_speed: float = 200.0   # velocidad corriendo
+@export var walk_speed: float = 100.0  # velocidad caminando normal
+@export var run_duration: float = 5.0  # máximo tiempo corriendo
+@export var rest_duration: float = 6.0 # tiempo mínimo caminando antes de poder volver a correr
+
+var run_timer: float = 0.0
+var rest_timer: float = 0.0
+var is_running: bool = false
 
 var base_attack_area_position: Vector2
 var direction: Vector2 = Vector2.ZERO
@@ -29,7 +37,6 @@ var is_hurt: bool = false
 var flashing: bool = false
 var is_dead := false
 
-var walk_timer: float = 0.0
 var knockback_timer: float = 0.0
 var knockback_duration: float = 0.2
 
@@ -39,7 +46,8 @@ func _ready() -> void:
 	attack_area.area_entered.connect(_on_attack_area_area_entered)
 	attack_shape.disabled = true
 	_update_attack_area_direction()
-
+	$Exhala.hide()
+	
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
@@ -47,26 +55,42 @@ func _physics_process(delta: float) -> void:
 	# --- Movimiento ---
 	direction.x = Input.get_axis("left", "right")
 
-	# Actualizar facing_direction si moviéndose
+	# Actualizar facing_direction si se mueve
 	if direction.x != 0:
 		facing_direction = sign(direction.x)
 
-	# Actualizar attack_area según dirección, incluso quieto
+	# Actualizar attack_area según dirección
 	_update_attack_area_direction()
 
-	# Contar tiempo caminando solo si el jugador se mueve
-	if direction.x != 0 and not is_attacking and not is_magic_attacking and not is_hurt: # ⚡ agregado is_magic_attacking
-		walk_timer += delta
+	# --- Lógica correr / caminar ---
+	if Input.is_action_pressed("run") and rest_timer <= 0.0 and direction.x != 0 and not is_attacking and not is_magic_attacking and not is_hurt:
+		# Correr
+		is_running = true
+		run_timer += delta
+		if run_timer >= run_duration:
+			# se cansa
+			is_running = false
+			rest_timer = rest_duration
+			run_timer = 0.0
+			$Exhala.show()  # mostrar exhala solo al cansarse
+			await get_tree().create_timer(3).timeout
+			$Exhala.hide()  # mostrar exhala solo al cansarse
+			
 	else:
-		walk_timer = 0.0
+		# caminar o descansar
+		is_running = false
+		if rest_timer > 0.0:
+			rest_timer -= delta
+			if rest_timer <= 0.0:
+				$Exhala.hide()  # ocultar exhala cuando terminó de descansar
 
-	# Reducir velocidad si supera el tiempo caminando
-	var current_speed = speed
-	if walk_timer >= walk_slowdown_after:
-		current_speed = walk_slow_speed
+	# Determinar velocidad actual
+	var current_speed = walk_speed
+	if is_running:
+		current_speed = run_speed
 
-	# Movimiento horizontal
-	if not is_attacking and not is_magic_attacking and not is_hurt: # ⚡ agregado is_magic_attacking
+	# Aplicar movimiento horizontal
+	if not is_attacking and not is_magic_attacking and not is_hurt:
 		velocity.x = direction.x * current_speed
 	elif is_hurt:
 		# aplicar freno durante knockback
@@ -76,7 +100,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			is_hurt = false
 
-	# Animaciones y ataque
+	# --- Animaciones y ataque ---
 	if is_attacking:
 		if animated_sprite.animation == "attack" and animated_sprite.frame == 2:
 			attack_shape.disabled = false
@@ -84,13 +108,12 @@ func _physics_process(delta: float) -> void:
 			attack_shape.disabled = true
 
 	elif is_magic_attacking:
-		# durante magia no hace nada extra
-		pass
+		pass  # no hacer nada extra durante magia
 
 	elif not is_hurt:
 		if Input.is_action_just_pressed("attack") and not is_attacking:
 			_start_attack()
-		elif Input.is_action_just_pressed("magic") and not is_magic_attacking: # ⚡ tecla P
+		elif Input.is_action_just_pressed("magic") and not is_magic_attacking:
 			_start_magic_attack()
 		elif direction.x != 0:
 			if animated_sprite.animation != "run":
@@ -105,14 +128,22 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+
 func _update_attack_area_direction() -> void:
 	if facing_direction > 0:
 		animated_sprite.flip_h = false
+		exhala.flip_h = false
+		exhala.rotation_degrees = 90
+		exhala.position.x = abs(exhala.position.x)
 		attack_area.position = base_attack_area_position
 	else:
 		animated_sprite.flip_h = true
+		exhala.flip_h = true
+		exhala.rotation_degrees = -90
+		exhala.position.x = -abs(exhala.position.x)
 		attack_area.position = base_attack_area_position + Vector2(-attack_offset, 0)
-
+		
+		
 # --- ATAQUE FÍSICO ---
 func _start_attack() -> void:
 	is_attacking = true
@@ -164,11 +195,13 @@ func _on_attack_area_body_entered(body: Node) -> void:
 	if body.is_in_group("Enemy") and body.has_method("take_damage"):
 		var dir = Vector2(sign(body.global_position.x - global_position.x), 0) * attack_knockback
 		body.take_damage(33, dir)
+		camera_shake(0.2, 1.0)  # duración 0.2s, intensidad 3.0
 
 func _on_attack_area_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Muralla Enemiga") and area.has_method("take_damage"):
 		$AttackHit.play()
 		area.take_damage(10)
+		camera_shake(0.2, 2.0)  # duración 0.2s, intensidad 3.0
 
 func take_damage(knockback_dir: Vector2, hit_from_right: bool) -> void:
 	if is_dead:
@@ -182,12 +215,12 @@ func take_damage(knockback_dir: Vector2, hit_from_right: bool) -> void:
 	velocity = knockback_dir.normalized() * knockback_strength
 	is_hurt = true
 	knockback_timer = knockback_duration
-
+	camera_shake(0.2, 3.0)  # duración 0.2s, intensidad 3.0
 	# reproducir animación hurt solo si no estás atacando
 	if not is_attacking and not is_magic_attacking: # ⚡ agregado
 		animated_sprite.play("hurt")
 
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(1.5).timeout
 
 	if direction.x == 0 and not is_attacking and not is_magic_attacking: # ⚡ agregado
 		animated_sprite.play("idle")
