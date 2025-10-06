@@ -198,7 +198,7 @@ func _on_attack_area_body_entered(body: Node) -> void:
 		camera_shake(0.2, 1.0)  # duración 0.2s, intensidad 3.0
 
 func _on_attack_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Muralla Enemiga") and area.has_method("take_damage"):
+	if (area.is_in_group("Muralla Enemiga") or area.is_in_group("Hut Enemigo")) and area.has_method("take_damage"):
 		$AttackHit.play()
 		area.take_damage(10)
 		camera_shake(0.2, 2.0)  # duración 0.2s, intensidad 3.0

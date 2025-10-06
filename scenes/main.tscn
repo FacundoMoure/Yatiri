@@ -691,8 +691,9 @@ centered = false
 script = SubResource("GDScript_ya4ey")
 archer_scene = ExtResource("10_choun")
 tribe_size = 4
-start_position = Vector2(-1200, 325)
-attack_interval = 10.0
+spacing = 70.0
+start_position = Vector2(-1000, 325)
+attack_interval = 6.0
 
 [node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("11_dp3eg")
@@ -722,7 +723,7 @@ night_duration = 150.0
 transition_time = 30.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-position = Vector2(-377, 330)
+position = Vector2(366, 330)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -756,6 +757,7 @@ position = Vector2(-1074, 272)
 position = Vector2(2000, 259)
 
 [node name="Flora" parent="." instance=ExtResource("20_gqmmt")]
+visible = false
 position = Vector2(151, 91)
 scale = Vector2(0.8, 0.8)
 

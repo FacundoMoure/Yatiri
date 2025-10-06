@@ -1,7 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://tmd0h4oma52p"]
+[gd_scene load_steps=28 format=3 uid="uid://tmd0h4oma52p"]
 
+[ext_resource type="Script" uid="uid://cw45e7n5laf46" path="res://scripts/hut.gd" id="1_agf4v"]
 [ext_resource type="Texture2D" uid="uid://dwa4wgbj6fonh" path="res://assets/img/Yatiri/Escenario/base_enemiga.png" id="1_lbxpc"]
 [ext_resource type="PackedScene" uid="uid://bxwyycl75xmc8" path="res://scenes/muralla_tribu.tscn" id="2_lbxpc"]
+[ext_resource type="Texture2D" uid="uid://brfapmc4fr52m" path="res://assets/img/Explotion.png" id="5_8rcwa"]
+[ext_resource type="AudioStream" uid="uid://bj2543vduipa2" path="res://assets/sound/attack_hit.wav" id="6_teqky"]
+[ext_resource type="AudioStream" uid="uid://cvnq8h8erigjy" path="res://assets/sound/glass.wav" id="7_qt1ly"]
+
+[sub_resource type="Shader" id="Shader_gly16"]
+code = "shader_type canvas_item;
+
+// 🔹 Export para manejar desde el inspector de Godot
+uniform bool effect_enabled = false;
+uniform vec3 flash_color : source_color = vec3(1.0,0.0,0.0);
+uniform vec3 base_color : source_color = vec3(1.0,1.0,1.0); // color base de tu sprite
+
+void fragment() {
+    vec4 tex = texture(TEXTURE, UV);
+    
+    // 🔹 Aplicar el color base del sprite (por ejemplo, tu tono oscuro)
+    vec4 colored_tex = tex * vec4(base_color, 1.0);
+    
+    if (effect_enabled) {
+        // 🔹 Mezcla con el color del flash
+        COLOR = mix(colored_tex, vec4(flash_color, tex.a), 0.7);
+    } else {
+        COLOR = colored_tex;
+    }
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8y15c"]
+shader = SubResource("Shader_gly16")
+shader_parameter/effect_enabled = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/base_color = Color(0.661081, 0.661081, 0.661081, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lbxpc"]
 size = Vector2(102, 83)
@@ -9,14 +42,137 @@ size = Vector2(102, 83)
 [sub_resource type="Gradient" id="Gradient_n3evu"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.619608)
 
-[node name="Hut" type="Area2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixsww"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0sp2"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auadv"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rceni"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvkct"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqa2b"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw3ra"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23fi2"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blq51"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtea8"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfwui"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2mmq"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8trpq"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p52b1"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egmn4"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4yoi"]
+atlas = ExtResource("5_8rcwa")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6lt4u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixsww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0sp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auadv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rceni")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvkct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fqa2b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw3ra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23fi2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blq51")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gtea8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hfwui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2mmq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8trpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p52b1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_egmn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4yoi")
+}],
+"loop": false,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="Hut" type="Area2D" groups=["Base"]]
 z_index = -4
 collision_layer = 513
 collision_mask = 33
+script = ExtResource("1_agf4v")
+health = 30
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Hut" type="Sprite2D" parent="."]
 modulate = Color(0.558287, 0.558287, 0.558287, 1)
 texture_filter = 1
+material = SubResource("ShaderMaterial_8y15c")
 position = Vector2(-101, -15)
 scale = Vector2(3, 3)
 texture = ExtResource("1_lbxpc")
@@ -42,4 +198,20 @@ color_ramp = SubResource("Gradient_n3evu")
 
 [node name="MurallaTribu" parent="." instance=ExtResource("2_lbxpc")]
 position = Vector2(366, 37)
-health = 50
+
+[node name="Explotion" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(26, 12)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_6lt4u")
+frame = 15
+frame_progress = 1.0
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_teqky")
+volume_db = -12.0
+pitch_scale = 0.6
+
+[node name="Explotion2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_qt1ly")
+pitch_scale = 0.8

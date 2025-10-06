@@ -3,6 +3,7 @@ extends Node
 var coins: int = 20
 var potions: int = 15
 var tribe_count: int = 0   
+var game_result_text = ""
 
 signal coins_changed(new_value)
 signal potions_changed(new_value)

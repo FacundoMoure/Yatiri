@@ -60,7 +60,7 @@ func do_attack() -> void:
 	animated_sprite.flip_h = closest_enemy.global_position.x < global_position.x
 
 	# Instanciar flecha
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.3).timeout
 	var arrow = preloadArrow.instantiate()
 	arrow.global_position = $ArrowPosition.global_position
 	get_parent().add_child(arrow)
@@ -127,6 +127,7 @@ func flash_white() -> void:
 
 func set_state_dead() -> void:
 	is_dead = true
+	remove_from_group("Player")
 	$CollisionShape2D.disabled = true
 	attack_cooldown = true
 	animated_sprite.play("death")

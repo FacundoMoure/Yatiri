@@ -47,10 +47,14 @@ func _on_destroyed() -> void:
 	await get_tree().create_timer(0.1).timeout
 	muralla_1.hide()
 	muralla_collision.disabled = true
+	$Explotion2.play()
 	$Muralla2.hide()
 	$Muralla3.hide()
 	$Explotion.show()
 	$Explotion.play("default")
 	$StaticBody2D/CollisionShape2D.disabled = true
 	await $Explotion.animation_finished
+	$Explotion.hide()
+	await get_tree().create_timer(0.5).timeout
+	
 	queue_free()

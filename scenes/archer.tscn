@@ -204,7 +204,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt",
-"speed": 8.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -262,7 +262,7 @@ script = ExtResource("2_cctdm")
 health = 50
 knockback_force = 100.0
 knockback_friction = 800.0
-damage_flash_time = 0.2
+damage_flash_time = 0.4
 flash_duration = 0.8
 metadata/_edit_group_ = true
 
