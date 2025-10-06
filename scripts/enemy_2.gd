@@ -255,12 +255,32 @@ func _update_attack_area_direction() -> void:
 
 # -------------------- NUEVO: OBTENER TARGET --------------------
 func _get_target() -> Node2D:
+	var closest_target: Node2D = null
+	var closest_distance := INF
+
+	# --- 1️⃣ Buscar murallas primero ---
 	var walls = get_tree().get_nodes_in_group("Muralla")
-	if not walls.is_empty():
-		return walls.front()
+	for w in walls:
+		if not is_instance_valid(w):
+			continue
+		if not (w is Node2D):
+			continue
+		var dist = global_position.distance_to(w.global_position)
+		if dist < closest_distance:
+			closest_distance = dist
+			closest_target = w
 
-	var players = get_tree().get_nodes_in_group("Player")
-	if not players.is_empty():
-		return players.front()
+	# --- 2️⃣ Si no hay murallas válidas, buscar players ---
+	if closest_target == null:
+		var players = get_tree().get_nodes_in_group("Player")
+		for p in players:
+			if not is_instance_valid(p):
+				continue
+			if not (p is Node2D):
+				continue
+			var dist = global_position.distance_to(p.global_position)
+			if dist < closest_distance:
+				closest_distance = dist
+				closest_target = p
 
-	return null
+	return closest_target

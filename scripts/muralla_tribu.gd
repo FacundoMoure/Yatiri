@@ -26,15 +26,12 @@ func _ready() -> void:
 	monitorable = true
 	monitoring = true
 
-# ------------------ DAÑO ------------------
-
 func take_damage(amount: int) -> void:
 	if health <= 0:
 		return
 	
 	$Hit.play()
 	health -= amount
-	print("Muralla recibe daño:", amount, " | Salud restante:", health)
 
 	if health <= 0:
 		_on_destroyed()

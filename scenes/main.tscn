@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://dwrah6o3ea43a"]
+[gd_scene load_steps=29 format=4 uid="uid://dwrah6o3ea43a"]
 
 [ext_resource type="Script" uid="uid://cy1jfvpk34272" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://b7gqby3jeqjbv" path="res://assets/img/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_0wfyh"]
@@ -8,8 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://c43r50yqcdch7" path="res://assets/img/parallax/parallax-01.png" id="5_tipki"]
 [ext_resource type="Texture2D" uid="uid://bh4u7bs6488f1" path="res://assets/img/parallax/parallax-02.png" id="6_85g3d"]
 [ext_resource type="Texture2D" uid="uid://b175t4jfvonk" path="res://assets/img/parallax/parallax-03.png" id="7_choun"]
+[ext_resource type="Texture2D" uid="uid://c4ydaql8xve5a" path="res://assets/img/parallax/parallaxjujuy/fondo_0.png" id="8_og1vs"]
 [ext_resource type="Texture2D" uid="uid://be4af5sror552" path="res://assets/img/parallax/parallax-04.png" id="8_tipki"]
+[ext_resource type="Texture2D" uid="uid://c87g586k4rkis" path="res://assets/img/parallax/parallaxjujuy/fondo_1.png" id="9_2wyq8"]
 [ext_resource type="PackedScene" uid="uid://dtc54osiii58s" path="res://scenes/archer.tscn" id="10_choun"]
+[ext_resource type="Texture2D" uid="uid://cws2s7mjae0h" path="res://assets/img/parallax/parallaxjujuy/fondo_2a.png" id="10_vxglm"]
+[ext_resource type="Texture2D" uid="uid://dkqf0ubj7e2t" path="res://assets/img/parallax/parallaxjujuy/fondo_2b.png" id="11_2f3dj"]
 [ext_resource type="Script" uid="uid://dgpl4g1fu1j8l" path="res://scripts/enemy_spawner.gd" id="11_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://bdpe0in6t3f84" path="res://scenes/hud.tscn" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://dtel6iu06o1tn" path="res://scripts/day_night_cycle.gd" id="12_eb6dy"]
@@ -575,11 +579,13 @@ tile_map_data = PackedByteArray("AAD0/xAAAAABAAEAAAD1/xAAAAABAAEAAAD2/xAAAAACAAE
 tile_set = SubResource("TileSet_jyhfs")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+visible = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_mirroring = Vector2(1440, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+visible = false
 texture = ExtResource("4_o6xl0")
 centered = false
 
@@ -589,6 +595,7 @@ motion_mirroring = Vector2(1440, 0)
 script = ExtResource("5_85g3d")
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+visible = false
 texture = ExtResource("5_tipki")
 centered = false
 
@@ -597,6 +604,7 @@ motion_scale = Vector2(0.1, 1)
 motion_mirroring = Vector2(1440, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+visible = false
 texture = ExtResource("6_85g3d")
 centered = false
 
@@ -605,7 +613,62 @@ motion_scale = Vector2(0.2, 1)
 motion_mirroring = Vector2(1440, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+visible = false
 texture = ExtResource("7_choun")
+centered = false
+
+[node name="ParallaxJujuy" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxJujuy"]
+motion_mirroring = Vector2(1440, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxJujuy/ParallaxLayer"]
+texture = ExtResource("4_o6xl0")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxJujuy"]
+motion_scale = Vector2(0, 1)
+motion_mirroring = Vector2(1440, 0)
+script = ExtResource("5_85g3d")
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxJujuy/ParallaxLayer2"]
+texture = ExtResource("5_tipki")
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxJujuy"]
+motion_scale = Vector2(0.1, 1)
+motion_mirroring = Vector2(1159, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxJujuy/ParallaxLayer3"]
+position = Vector2(0, 140)
+texture = ExtResource("8_og1vs")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxJujuy"]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(657, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxJujuy/ParallaxLayer4"]
+position = Vector2(2, 164)
+texture = ExtResource("9_2wyq8")
+centered = false
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="ParallaxJujuy"]
+motion_scale = Vector2(0.3, 1)
+motion_mirroring = Vector2(657, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxJujuy/ParallaxLayer5"]
+position = Vector2(2, 166)
+texture = ExtResource("10_vxglm")
+centered = false
+
+[node name="ParallaxLayer6" type="ParallaxLayer" parent="ParallaxJujuy"]
+motion_scale = Vector2(0.3, 1)
+motion_mirroring = Vector2(657, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxJujuy/ParallaxLayer6"]
+position = Vector2(2, 166)
+texture = ExtResource("11_2f3dj")
 centered = false
 
 [node name="ParallaxForeground" type="ParallaxBackground" parent="."]
@@ -659,7 +722,7 @@ night_duration = 150.0
 transition_time = 30.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-position = Vector2(-573, 330)
+position = Vector2(-377, 330)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -693,7 +756,8 @@ position = Vector2(-1074, 272)
 position = Vector2(2000, 259)
 
 [node name="Flora" parent="." instance=ExtResource("20_gqmmt")]
-position = Vector2(61, 27)
+position = Vector2(151, 91)
+scale = Vector2(0.8, 0.8)
 
 [node name="Enemy2" parent="." instance=ExtResource("22_jscy8")]
 position = Vector2(-76, 332)
