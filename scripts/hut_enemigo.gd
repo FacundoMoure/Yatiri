@@ -53,7 +53,7 @@ func _on_destroyed() -> void:
 	await $Explotion.animation_finished
 	$Explotion.hide()
 
-	await get_tree().create_timer(3).timeout
+	await get_tree().create_timer(4).timeout
 	Global.game_result_text = "¡Ganaste!\n\n¿Jugar de nuevo?"
 	get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
 

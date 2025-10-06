@@ -16,8 +16,8 @@ corner_radius_top_left = 1
 corner_radius_top_right = 1
 corner_radius_bottom_right = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ysmq"]
-bg_color = Color(0.798974, 4.3799e-06, 6.73831e-07, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fi6k"]
+bg_color = Color(0, 0.522189, 2.88785e-07, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -28,8 +28,8 @@ corner_radius_top_right = 1
 corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fi6k"]
-bg_color = Color(0, 0.522189, 2.88785e-07, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ysmq"]
+bg_color = Color(0.798974, 4.3799e-06, 6.73831e-07, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -61,35 +61,21 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_constants/separation = 7
 
-[node name="ChamanHealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer2"]
-visible = false
-texture_filter = 1
-custom_minimum_size = Vector2(80, 10)
+[node name="BaseContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 15
-theme_override_styles/background = SubResource("StyleBoxFlat_oo0fn")
-theme_override_styles/fill = SubResource("StyleBoxFlat_5ysmq")
-value = 80.0
 
-[node name="Tribu" type="Label" parent="MarginContainer/HBoxContainer2"]
+[node name="Base" type="Label" parent="MarginContainer/VBoxContainer2/BaseContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 18
-text = "Tribu"
+theme_override_font_sizes/font_size = 16
+text = "Base"
 
-[node name="TribuHealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer2"]
-visible = false
+[node name="BaseHealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer2/BaseContainer"]
 texture_filter = 1
 custom_minimum_size = Vector2(70, 10)
 layout_mode = 2
@@ -102,12 +88,39 @@ theme_override_styles/background = SubResource("StyleBoxFlat_oo0fn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6fi6k")
 value = 100.0
 
-[node name="TribuNumber" type="Label" parent="MarginContainer/HBoxContainer2"]
+[node name="TribuContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 7
+
+[node name="ChamanHealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer2/TribuContainer"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(80, 10)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_oo0fn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/background = SubResource("StyleBoxFlat_oo0fn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5ysmq")
+value = 80.0
+
+[node name="Tribu" type="Label" parent="MarginContainer/VBoxContainer2/TribuContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_oo0fn")
+theme_override_font_sizes/font_size = 16
+text = "Tribu"
+
+[node name="TribuNumber" type="Label" parent="MarginContainer/VBoxContainer2/TribuContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "01"
 
 [node name="DayLabel" type="Label" parent="MarginContainer"]
@@ -116,8 +129,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 18
-text = "Dia 1"
+theme_override_font_sizes/font_size = 16
+text = "Day 01"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -128,8 +141,8 @@ size_flags_horizontal = 8
 
 [node name="Coin" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 texture_filter = 1
-position = Vector2(-15, 9)
-scale = Vector2(1.8, 1.8)
+position = Vector2(-15, 7)
+scale = Vector2(1.6, 1.6)
 texture = ExtResource("2_5ysmq")
 
 [node name="Coins" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
@@ -139,7 +152,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "05"
 horizontal_alignment = 2
 
@@ -155,11 +168,11 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_oo0fn")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "05"
 
 [node name="Potion" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 texture_filter = 1
-position = Vector2(-16, 5)
-scale = Vector2(0.6, 0.6)
+position = Vector2(-15, 5)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_6fi6k")

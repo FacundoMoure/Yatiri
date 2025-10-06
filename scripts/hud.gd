@@ -2,7 +2,8 @@ extends Control
 
 @onready var coins_label: Label = $MarginContainer/VBoxContainer/HBoxContainer/Coins
 @onready var potions_label: Label = $MarginContainer/VBoxContainer/HBoxContainer3/Potions
-@onready var tribe_label: Label = $MarginContainer/HBoxContainer2/TribuNumber
+#@onready var tribe_label: Label = $MarginContainer/HBoxContainer2/TribuNumber
+@onready var tribe_label: Label = $MarginContainer/VBoxContainer2/TribuContainer/TribuNumber
 
 func _ready() -> void:
 	# Conectar señales del Global
