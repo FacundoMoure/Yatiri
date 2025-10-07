@@ -1,10 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://tmd0h4oma52p"]
+[gd_scene load_steps=29 format=3 uid="uid://tmd0h4oma52p"]
 
 [ext_resource type="Script" uid="uid://cw45e7n5laf46" path="res://scripts/hut.gd" id="1_agf4v"]
 [ext_resource type="Texture2D" uid="uid://dwa4wgbj6fonh" path="res://assets/img/Yatiri/Escenario/base_enemiga.png" id="1_lbxpc"]
 [ext_resource type="PackedScene" uid="uid://bxwyycl75xmc8" path="res://scenes/muralla_tribu.tscn" id="2_lbxpc"]
 [ext_resource type="Texture2D" uid="uid://brfapmc4fr52m" path="res://assets/img/Explotion.png" id="5_8rcwa"]
 [ext_resource type="AudioStream" uid="uid://bj2543vduipa2" path="res://assets/sound/attack_hit.wav" id="6_teqky"]
+[ext_resource type="PackedScene" uid="uid://bkkodudqtsrih" path="res://scenes/flora.tscn" id="7_agf4v"]
 [ext_resource type="AudioStream" uid="uid://cvnq8h8erigjy" path="res://assets/sound/glass.wav" id="7_qt1ly"]
 
 [sub_resource type="Shader" id="Shader_gly16"]
@@ -216,3 +217,6 @@ pitch_scale = 0.6
 [node name="Explotion2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_qt1ly")
 pitch_scale = 0.8
+
+[node name="Flora" parent="." instance=ExtResource("7_agf4v")]
+position = Vector2(-961, -246)

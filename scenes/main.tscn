@@ -744,6 +744,7 @@ position = Vector2(387, 327)
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_jbj1t")
 volume_db = -10.0
+autoplay = true
 
 [node name="Sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("16_muem4")

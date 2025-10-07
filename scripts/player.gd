@@ -43,12 +43,24 @@ var knockback_duration: float = 0.2
 var can_play_hit_sound := true
 
 func _ready() -> void:
+
+	add_to_group("Player")
+
+	var grupos = ["Muralla", "Muralla Enemiga", "Hut Enemigo"]
+	for grupo in grupos:
+		for nodo in get_tree().get_nodes_in_group(grupo):
+			if nodo.has_signal("muralla_destruida"):
+				nodo.muralla_destruida.connect(_on_muralla_destruida)
+
 	base_attack_area_position = attack_area.position
 	attack_area.body_entered.connect(_on_attack_area_body_entered)
 	attack_area.area_entered.connect(_on_attack_area_area_entered)
 	attack_shape.disabled = true
 	_update_attack_area_direction()
 	$Exhala.hide()
+	
+func _on_muralla_destruida():
+	camera_shake(1.0, 1.5)
 	
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -169,6 +181,7 @@ func _start_magic_attack() -> void:
 	animated_sprite.play("magic")
 	_spawn_lightning()
 	$Magic.play()
+	camera_shake(1.0, 1.5)
 	Global.remove_potions(1)
 	if steps.playing:
 		steps.stop()

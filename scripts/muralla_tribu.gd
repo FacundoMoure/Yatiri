@@ -1,8 +1,10 @@
 extends Area2D
 
-@export var health: int = 100
+signal muralla_destruida
 
+@export var health: int = 100
 @onready var muralla_1: Sprite2D = $Muralla
+@onready var muralla_2: Sprite2D = $Muralla2
 @onready var muralla_collision: CollisionShape2D = $MurallaCollision
 @onready var static_body: StaticBody2D = $StaticBody2D
 @onready var static_collision: CollisionShape2D = $StaticBody2D/CollisionShape2D
@@ -16,6 +18,7 @@ var flash_timer: Timer
 func _ready() -> void:
 	add_to_group("Muralla")
 	$Explotion.hide()
+	
 	# Timer interno para efecto de daño
 	flash_timer = Timer.new()
 	flash_timer.one_shot = false
@@ -25,6 +28,7 @@ func _ready() -> void:
 	# Asegurar que el StaticBody2D bloquee, pero esta Area2D reciba daño
 	monitorable = true
 	monitoring = true
+
 
 func take_damage(amount: int) -> void:
 	if health <= 0:
@@ -38,30 +42,45 @@ func take_damage(amount: int) -> void:
 	else:
 		_start_flash()
 
+
 func _start_flash() -> void:
 	flash_counter = 0
 	flash_timer.start(damage_flash_duration)
 
+
 func _on_flash_timer_timeout() -> void:
 	if flash_counter < damage_flash_count * 2:
 		var active = flash_counter % 2 == 0
+
 		if muralla_1.material:
 			muralla_1.material.set_shader_parameter("effect_enabled", active)
+		if muralla_2.material:
+			muralla_2.material.set_shader_parameter("effect_enabled", active)
+
 		flash_counter += 1
 	else:
 		flash_timer.stop()
 		if muralla_1.material:
 			muralla_1.material.set_shader_parameter("effect_enabled", false)
+		if muralla_2.material:
+			muralla_2.material.set_shader_parameter("effect_enabled", false)
+
 
 func _on_destroyed() -> void:
 	await get_tree().create_timer(0.1).timeout
+	
+	emit_signal("muralla_destruida")
+
 	muralla_1.hide()
+	muralla_2.hide()
 	static_body.hide()
 	muralla_collision.disabled = true
 	static_collision.disabled = true
-	$Muralla2.hide()
+	
+	$Explotion2.play()
 	$Explotion.show()
 	$Explotion.play("default")
-
 	await $Explotion.animation_finished
+	$Explotion.hide()
+	await get_tree().create_timer(4.0).timeout
 	queue_free()

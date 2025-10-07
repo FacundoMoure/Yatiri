@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dd6wm8kdppytc" path="res://assets/img/Yatiri/Escenario/Empaladiza.png" id="3_yldxc"]
 [ext_resource type="AudioStream" uid="uid://bj2543vduipa2" path="res://assets/sound/attack_hit.wav" id="4_rdskk"]
 [ext_resource type="Texture2D" uid="uid://brfapmc4fr52m" path="res://assets/img/Explotion.png" id="5_1e087"]
-[ext_resource type="AudioStream" uid="uid://cvnq8h8erigjy" path="res://assets/sound/glass.wav" id="6_ixsww"]
+[ext_resource type="AudioStream" uid="uid://beil22emq2366" path="res://assets/sound/magic.wav" id="6_ixsww"]
 
 [sub_resource type="Shader" id="Shader_ixsww"]
 code = "shader_type canvas_item;
@@ -219,4 +219,5 @@ frame_progress = 1.0
 
 [node name="Explotion2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_ixsww")
-pitch_scale = 0.8
+volume_db = -16.0
+pitch_scale = 0.6

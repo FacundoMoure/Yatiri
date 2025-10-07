@@ -133,7 +133,7 @@ func set_state_dead() -> void:
 	animated_sprite.play("death")
 	if $Steps:
 		$Steps.stop()
-
+	Global.remove_tribe_member()
 	var tween := create_tween()
 	tween.tween_interval(7)
 	tween.tween_property(animated_sprite, "modulate:a", 0.0, 3.5)

@@ -1,5 +1,7 @@
 extends Area2D
 
+signal muralla_destruida
+
 @export var health: int = 100
 @onready var hut_enemigo: Sprite2D = $HutEnemigo
 @onready var collision: CollisionShape2D = $CollisionShape2D
@@ -44,7 +46,9 @@ func _on_flash_timer_timeout() -> void:
 			hut_enemigo.material.set_shader_parameter("effect_enabled", false)
 
 func _on_destroyed() -> void:
+	
 	await get_tree().create_timer(0.1).timeout
+	emit_signal("muralla_destruida")
 	$Explotion2.play()
 	hut_enemigo.hide()
 	collision.disabled = true
@@ -53,7 +57,7 @@ func _on_destroyed() -> void:
 	await $Explotion.animation_finished
 	$Explotion.hide()
 
-	await get_tree().create_timer(4).timeout
+	await get_tree().create_timer(6).timeout
 	Global.game_result_text = "¡Ganaste!\n\n¿Jugar de nuevo?"
 	get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
 
