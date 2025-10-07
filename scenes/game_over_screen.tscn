@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://d3orncdx37874"]
 
 [ext_resource type="Script" uid="uid://bloqrd36evnnm" path="res://scripts/game_over_screen.gd" id="1_61w2s"]
-[ext_resource type="FontFile" uid="uid://cijxlhmdtc8ap" path="res://assets/font/OwreKynge.ttf" id="1_iwahs"]
 [ext_resource type="Texture2D" uid="uid://bug2pak5p1j2e" path="res://assets/img/parallax/parallax-00.png" id="3_4tlw3"]
 [ext_resource type="Script" uid="uid://31j1lwvdnq2u" path="res://scripts/clouds.gd" id="4_ej65t"]
 [ext_resource type="Texture2D" uid="uid://c43r50yqcdch7" path="res://assets/img/parallax/parallax-01.png" id="5_8i476"]
 [ext_resource type="Texture2D" uid="uid://c4ydaql8xve5a" path="res://assets/img/parallax/parallaxjujuy/fondo_0.png" id="6_ktv0q"]
 [ext_resource type="Texture2D" uid="uid://c87g586k4rkis" path="res://assets/img/parallax/parallaxjujuy/fondo_1.png" id="7_x8ovf"]
 [ext_resource type="Texture2D" uid="uid://cws2s7mjae0h" path="res://assets/img/parallax/parallaxjujuy/fondo_2a.png" id="8_q3lui"]
+[ext_resource type="FontFile" uid="uid://bxqx6c1hu6ki7" path="res://assets/font/Acadian_Runes-Regular_PERSONAL_USE.ttf" id="9_4tlw3"]
 [ext_resource type="Texture2D" uid="uid://dkqf0ubj7e2t" path="res://assets/img/parallax/parallaxjujuy/fondo_2b.png" id="9_cb3on"]
 
 [node name="GameOverScreen" type="Control"]
@@ -96,10 +96,10 @@ theme_override_constants/margin_bottom = 80
 [node name="Label" type="Label" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/outline_size = 5
-theme_override_fonts/font = ExtResource("1_iwahs")
-theme_override_font_sizes/font_size = 26
-text = "Perdiste
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("9_4tlw3")
+theme_override_font_sizes/font_size = 36
+text = "¡Perdiste!
 
 ¿Volver a intentar?"
 horizontal_alignment = 1
@@ -112,17 +112,21 @@ size_flags_vertical = 8
 theme_override_constants/separation = 50
 
 [node name="PlayButton" type="Button" parent="MarginContainer/HBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_fonts/font = ExtResource("1_iwahs")
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("9_4tlw3")
 text = "Jugar"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/HBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_fonts/font = ExtResource("1_iwahs")
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("9_4tlw3")
 text = "Salir"
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]

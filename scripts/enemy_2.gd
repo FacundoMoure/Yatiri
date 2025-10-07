@@ -206,8 +206,8 @@ func take_damage(amount: int, knockback_dir: Vector2, is_arrow_attack: bool = fa
 		return
 
 	hurt_cooldown = true
-	if not is_arrow_attack:
-		$AttackHit.play()
+	#if not is_arrow_attack:
+		#$AttackHit.play()
 	flash_white()
 
 	health -= amount

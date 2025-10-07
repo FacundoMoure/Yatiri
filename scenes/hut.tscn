@@ -198,6 +198,7 @@ color_ramp = SubResource("Gradient_n3evu")
 
 [node name="MurallaTribu" parent="." instance=ExtResource("2_lbxpc")]
 position = Vector2(366, 37)
+health = 50
 
 [node name="Explotion" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

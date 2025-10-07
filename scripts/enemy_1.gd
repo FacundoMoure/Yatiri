@@ -227,8 +227,8 @@ func take_damage(amount: int, knockback_dir: Vector2, is_arrow_attack: bool = fa
 	hurt_cooldown = true
 	set_state(State.HURT)
 	velocity = knockback_dir
-	if not is_arrow_attack:
-		$AttackHit.play()
+	#if not is_arrow_attack:
+		#$AttackHit.play()
 	flash_white()
 	await get_tree().create_timer(0.3).timeout
 	hurt_cooldown = false
