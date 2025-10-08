@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d3orncdx37874"]
+[gd_scene load_steps=11 format=3 uid="uid://d3orncdx37874"]
 
 [ext_resource type="Script" uid="uid://bloqrd36evnnm" path="res://scripts/game_over_screen.gd" id="1_61w2s"]
 [ext_resource type="Texture2D" uid="uid://bug2pak5p1j2e" path="res://assets/img/parallax/parallax-00.png" id="3_4tlw3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cws2s7mjae0h" path="res://assets/img/parallax/parallaxjujuy/fondo_2a.png" id="8_q3lui"]
 [ext_resource type="FontFile" uid="uid://bxqx6c1hu6ki7" path="res://assets/font/Acadian_Runes-Regular_PERSONAL_USE.ttf" id="9_4tlw3"]
 [ext_resource type="Texture2D" uid="uid://dkqf0ubj7e2t" path="res://assets/img/parallax/parallaxjujuy/fondo_2b.png" id="9_cb3on"]
+[ext_resource type="PackedScene" uid="uid://cw3w7ubl15l72" path="res://scenes/transition_control.tscn" id="10_ej65t"]
 
 [node name="GameOverScreen" type="Control"]
 layout_mode = 3
@@ -118,7 +119,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("9_4tlw3")
-text = "Jugar"
+text = "Menú"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/HBoxContainer"]
 texture_filter = 1
@@ -128,6 +129,11 @@ size_flags_vertical = 4
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("9_4tlw3")
 text = "Salir"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TransitionControl" parent="CanvasLayer" instance=ExtResource("10_ej65t")]
+visible = false
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

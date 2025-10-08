@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://bdpe0in6t3f84"]
 
 [ext_resource type="Script" uid="uid://y6b54urc2i6l" path="res://scripts/hud.gd" id="1_oo0fn"]
-[ext_resource type="Texture2D" uid="uid://xfi5wky55bwm" path="res://assets/img/coin.png" id="2_5ysmq"]
 [ext_resource type="FontFile" uid="uid://cijxlhmdtc8ap" path="res://assets/font/OwreKynge.ttf" id="2_oo0fn"]
 [ext_resource type="FontFile" uid="uid://bxqx6c1hu6ki7" path="res://assets/font/Acadian_Runes-Regular_PERSONAL_USE.ttf" id="2_uo2fv"]
 [ext_resource type="Texture2D" uid="uid://doac04bh3ce28" path="res://assets/img/Plant 1.png" id="4_6fi6k"]
+[ext_resource type="Texture2D" uid="uid://buvcyol8c72dy" path="res://assets/img/coin/Currencia.png" id="4_uo2fv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oo0fn"]
 bg_color = Color(1, 1, 1, 1)
@@ -144,8 +144,10 @@ size_flags_horizontal = 8
 [node name="Coin" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 texture_filter = 1
 position = Vector2(-15, 7)
-scale = Vector2(1.6, 1.6)
-texture = ExtResource("2_5ysmq")
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("4_uo2fv")
+hframes = 8
+frame = 4
 
 [node name="Coins" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 texture_filter = 1

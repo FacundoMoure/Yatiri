@@ -9,15 +9,25 @@ var segment_width: int
 var tiles: Array = []
 
 func _ready() -> void:
-	# Medir ancho del tilemap
+	set_process(false)  # Desactiva _process mientras se hace la transición
+	
+	if has_node("CanvasLayer2/TransitionControl"):
+		var transition = $CanvasLayer2/TransitionControl
+		get_tree().paused = false
+		transition.visible = true
+		var anim_player = transition.get_node("AnimationPlayer")
+		anim_player.play("screen_transition")
+		await anim_player.animation_finished
+		transition.visible = false
+	
+	# Ahora que todo está listo:
 	var rect = tilemap.get_used_rect()
 	var tile_size = tilemap.tile_set.tile_size
 	segment_width = rect.size.x * tile_size.x
-
-	# Lista de tilemaps que se están usando
 	tiles.append(tilemap)
+	spawn_coins_in_row(Vector2(-300, 325), 5, 60)
 	
-	spawn_coins_in_row(Vector2(-300, 325), 5, 60) 
+	set_process(true)  # Reactiva _process al final
 
 func _process(delta: float) -> void:
 	
