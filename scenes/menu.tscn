@@ -91,7 +91,7 @@ theme_override_constants/margin_bottom = 55
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer2"]
-texture_filter = 1
+texture_filter = 3
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -116,7 +116,7 @@ theme_override_constants/shadow_offset_y = 4
 theme_override_constants/outline_size = 12
 theme_override_constants/shadow_outline_size = 6
 theme_override_fonts/font = ExtResource("6_i6lef")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 26
 text = "El último Chamán"
 horizontal_alignment = 1
 
@@ -165,11 +165,9 @@ text = "Salir"
 
 [node name="Sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_4ytvr")
-autoplay = true
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_g3eks")
-autoplay = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]

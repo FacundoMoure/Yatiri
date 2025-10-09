@@ -24,8 +24,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer"]
+z_index = 1
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_c6kru")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2ckv8")
+text = "Volver"
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 visible = false
@@ -64,21 +76,6 @@ Agradecimientos
 UPSO"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Button" type="Button" parent="CanvasLayer"]
-z_index = 1
-texture_filter = 1
-offset_left = 573.0
-offset_top = 319.0
-offset_right = 630.0
-offset_bottom = 350.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("3_c6kru")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/focus = SubResource("StyleBoxEmpty_2ckv8")
-text = "Volver"
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
@@ -139,4 +136,4 @@ position = Vector2(-8, 172)
 texture = ExtResource("10_sxold")
 centered = false
 
-[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="." method="_on_button_pressed"]

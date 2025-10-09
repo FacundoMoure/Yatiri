@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cw7vv25ih2kf6"
-path="res://.godot/imported/Indiano.otf-30c6790c2cf14a52377092cfde9dffef.fontdata"
+uid="uid://cg1ormfjhsddc"
+path="res://.godot/imported/OpenSans_Condensed-Regular.ttf-b7f6659c8f3b76a708f5874054142bf0.fontdata"
 
 [deps]
 
-source_file="res://assets/font/Indiano.otf"
-dest_files=["res://.godot/imported/Indiano.otf-30c6790c2cf14a52377092cfde9dffef.fontdata"]
+source_file="res://assets/font/OpenSans_Condensed-Regular.ttf"
+dest_files=["res://.godot/imported/OpenSans_Condensed-Regular.ttf-b7f6659c8f3b76a708f5874054142bf0.fontdata"]
 
 [params]
 
@@ -21,21 +21,15 @@ msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
-hinting=0
-subpixel_positioning=1
+hinting=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
 fallbacks=[]
 Compress=null
 compress=true
-preload=[{
-"chars": [],
-"glyphs": [],
-"name": "New Configuration",
-"size": Vector2i(16, 0),
-&"variation_embolden": 0.0
-}]
+preload=[]
 language_support={}
 script_support={}
 opentype_features={}
