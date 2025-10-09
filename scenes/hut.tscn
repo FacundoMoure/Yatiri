@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://tmd0h4oma52p"]
+[gd_scene load_steps=30 format=3 uid="uid://tmd0h4oma52p"]
 
 [ext_resource type="Script" uid="uid://cw45e7n5laf46" path="res://scripts/hut.gd" id="1_agf4v"]
 [ext_resource type="Texture2D" uid="uid://dwa4wgbj6fonh" path="res://assets/img/Yatiri/Escenario/base_enemiga.png" id="1_lbxpc"]
@@ -38,10 +38,13 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/base_color = Color(0.661081, 0.661081, 0.661081, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lbxpc"]
-size = Vector2(102, 83)
+size = Vector2(311, 98)
 
 [sub_resource type="Gradient" id="Gradient_n3evu"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.619608)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_agf4v"]
+size = Vector2(283, 90)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ixsww"]
 atlas = ExtResource("5_8rcwa")
@@ -165,10 +168,9 @@ animations = [{
 
 [node name="Hut" type="Area2D" groups=["Base"]]
 z_index = -4
-collision_layer = 513
-collision_mask = 33
+collision_layer = 2048
+collision_mask = 1184
 script = ExtResource("1_agf4v")
-health = 30
 
 [node name="Hut" type="Sprite2D" parent="."]
 modulate = Color(0.558287, 0.558287, 0.558287, 1)
@@ -179,8 +181,8 @@ scale = Vector2(3, 3)
 texture = ExtResource("1_lbxpc")
 flip_h = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 21.5)
+[node name="BaseCollision" type="CollisionShape2D" parent="." groups=["Base"]]
+position = Vector2(-80.5, 17)
 shape = SubResource("RectangleShape2D_lbxpc")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
@@ -197,9 +199,16 @@ gravity = Vector2(0, -800)
 scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_n3evu")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["Base"]]
+collision_layer = 2048
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-89.5, 17)
+shape = SubResource("RectangleShape2D_agf4v")
+
 [node name="MurallaTribu" parent="." instance=ExtResource("2_lbxpc")]
 position = Vector2(475, 37)
-health = 50
 
 [node name="Explotion" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

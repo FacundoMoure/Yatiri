@@ -270,17 +270,20 @@ func _get_target() -> Node2D:
 			closest_distance = dist
 			closest_target = w
 
-	# --- 2️⃣ Si no hay murallas válidas, buscar players ---
+	# --- 2️⃣ Si no hay murallas válidas, buscar player y base, pero elegir el más cercano ---
 	if closest_target == null:
-		var players = get_tree().get_nodes_in_group("Player")
-		for p in players:
-			if not is_instance_valid(p):
+		var candidates: Array[Node2D] = []
+		candidates.append_array(get_tree().get_nodes_in_group("Player"))
+		candidates.append_array(get_tree().get_nodes_in_group("Base"))
+
+		for c in candidates:
+			if not is_instance_valid(c):
 				continue
-			if not (p is Node2D):
+			if not (c is Node2D):
 				continue
-			var dist = global_position.distance_to(p.global_position)
+			var dist = global_position.distance_to(c.global_position)
 			if dist < closest_distance:
 				closest_distance = dist
-				closest_target = p
+				closest_target = c
 
 	return closest_target

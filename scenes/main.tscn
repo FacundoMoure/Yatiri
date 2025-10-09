@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://dwrah6o3ea43a"]
+[gd_scene load_steps=29 format=4 uid="uid://dwrah6o3ea43a"]
 
 [ext_resource type="Script" uid="uid://cy1jfvpk34272" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://b7gqby3jeqjbv" path="res://assets/img/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_0wfyh"]
@@ -24,8 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://dmxfq5vavwy5r" path="res://assets/sound/birds.mp3" id="16_muem4"]
 [ext_resource type="PackedScene" uid="uid://tmd0h4oma52p" path="res://scenes/hut.tscn" id="17_muem4"]
 [ext_resource type="PackedScene" uid="uid://umlahfsnucks" path="res://scenes/hut_enemigo.tscn" id="19_0ld40"]
-[ext_resource type="PackedScene" uid="uid://bkkodudqtsrih" path="res://scenes/flora.tscn" id="20_gqmmt"]
-[ext_resource type="PackedScene" uid="uid://f45wojucvxx6" path="res://scenes/enemy_2.tscn" id="22_jscy8"]
+[ext_resource type="PackedScene" uid="uid://c57j15065au41" path="res://scenes/enemy_1.tscn" id="26_2wyq8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("2_0wfyh")
@@ -696,7 +695,7 @@ centered = false
 [node name="TribeSpawner" type="Node2D" parent="."]
 script = SubResource("GDScript_ya4ey")
 archer_scene = ExtResource("10_choun")
-tribe_size = 4
+tribe_size = 0
 spacing = 70.0
 start_position = Vector2(-1000, 325)
 attack_interval = 6.0
@@ -729,7 +728,7 @@ night_duration = 150.0
 transition_time = 30.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-position = Vector2(366, 330)
+position = Vector2(101, 331)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -763,10 +762,8 @@ position = Vector2(-1074, 272)
 [node name="HutEnemigo" parent="." instance=ExtResource("19_0ld40")]
 position = Vector2(2000, 259)
 
-[node name="Flora" parent="." instance=ExtResource("20_gqmmt")]
-visible = false
-position = Vector2(151, 91)
-scale = Vector2(0.8, 0.8)
+[node name="Enemy 1" parent="." instance=ExtResource("26_2wyq8")]
+position = Vector2(-471, 336)
 
-[node name="Enemy2" parent="." instance=ExtResource("22_jscy8")]
-position = Vector2(-76, 332)
+[node name="Enemy 2" parent="." instance=ExtResource("26_2wyq8")]
+position = Vector2(-763, 330)

@@ -76,7 +76,7 @@ func _on_destroyed() -> void:
 	static_body.hide()
 	muralla_collision.disabled = true
 	static_collision.disabled = true
-	
+	remove_from_group("Muralla")
 	$Explotion2.play()
 	$Explotion.show()
 	$Explotion.play("default")

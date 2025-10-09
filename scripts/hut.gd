@@ -3,7 +3,7 @@ extends Area2D
 @export var health: int = 100
 
 @onready var hut: Sprite2D = $Hut
-@onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var collision: CollisionShape2D = $BaseCollision
 @onready var static_body: StaticBody2D = $StaticBody2D
 @onready var static_collision: CollisionShape2D = $StaticBody2D/CollisionShape2D
 
@@ -14,6 +14,7 @@ var flash_timer: Timer
 
 
 func _ready() -> void:
+	add_to_group("Base")
 	$Explotion.hide()
 	# Timer interno para efecto de daño
 	flash_timer = Timer.new()

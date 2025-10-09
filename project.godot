@@ -87,6 +87,7 @@ run={
 2d_physics/layer_9="MurallaEnemiga"
 2d_physics/layer_10="Muralla"
 2d_physics/layer_11="Spear"
+2d_physics/layer_12="Base"
 
 [physics]
 
