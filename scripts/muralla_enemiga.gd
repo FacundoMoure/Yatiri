@@ -57,9 +57,10 @@ func _on_destroyed() -> void:
 	$Explotion.show()
 	$Explotion.play("default")
 	$StaticBody2D/CollisionShape2D.disabled = true
+	$MurallaRota.show()
+	$MurallaRota2.show()
 	await $Explotion.animation_finished
 	$Explotion.hide()
-	$Explotion2
-	await get_tree().create_timer(2.5).timeout
-	
-	queue_free()
+	#await get_tree().create_timer(2.5).timeout
+	#
+	#queue_free()

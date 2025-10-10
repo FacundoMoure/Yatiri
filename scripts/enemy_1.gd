@@ -167,6 +167,10 @@ func set_state(new_state: State) -> void:
 			$Steps.stop()
 			attack_area.monitoring = false
 			animated_sprite.play("idle")
+			
+				# --- Pequeño desplazamiento lateral ---
+			var offset = 10.0
+			global_position.x += offset * walk_direction
 
 			var target = _get_target_with_priority()
 			if target:
@@ -224,7 +228,6 @@ func _on_frame_changed() -> void:
 					body.take_damage(10)
 
 				elif body.is_in_group("Base"):
-					print("💥 Base golpeada por", self.name)
 					body.take_damage(10)
 
 

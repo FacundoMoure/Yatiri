@@ -2,7 +2,6 @@ extends Control
 
 func _ready():
 	get_tree().paused = false
-	Global.game_result_text = "¡Ganaste!\n\n¿Jugar de nuevo?"
 	$MarginContainer/Label.text = Global.game_result_text
 	$CanvasLayer/TransitionControl.visible = true
 	$CanvasLayer/TransitionControl/AnimationPlayer.play("screen_transition")

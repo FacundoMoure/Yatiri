@@ -695,7 +695,6 @@ centered = false
 [node name="TribeSpawner" type="Node2D" parent="."]
 script = SubResource("GDScript_ya4ey")
 archer_scene = ExtResource("10_choun")
-tribe_size = 0
 spacing = 70.0
 start_position = Vector2(-1000, 325)
 attack_interval = 6.0
@@ -728,7 +727,7 @@ night_duration = 150.0
 transition_time = 30.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
-position = Vector2(101, 331)
+position = Vector2(297, 332)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

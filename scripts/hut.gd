@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var health: int = 100
+signal muralla_destruida
 
 @onready var hut: Sprite2D = $Hut
 @onready var collision: CollisionShape2D = $BaseCollision
@@ -27,17 +27,18 @@ func _ready() -> void:
 	monitoring = true
 
 func take_damage(amount: int) -> void:
-	if health <= 0:
+	if Global.base_health <= 0:
 		return
 	
 	$Hit.play()
-	health -= amount
-
-	if health <= 0:
+	Global.damage_base(amount)
+	
+	if Global.base_health <= 0:
 		_on_destroyed()
 	else:
 		_start_flash()
-
+		
+		
 func _start_flash() -> void:
 	flash_counter = 0
 	flash_timer.start(damage_flash_duration)
@@ -55,8 +56,16 @@ func _on_flash_timer_timeout() -> void:
 
 func _on_destroyed() -> void:
 	await get_tree().create_timer(0.1).timeout
+	emit_signal("muralla_destruida")
 	hut.hide()
+	$Explotion.show()
+	$Explotion2.play()
 	collision.disabled = true
 	$Explotion.play("default")
 	await $Explotion.animation_finished
+	$Explotion.hide()
+	await get_tree().create_timer(6.0).timeout
+	Global.game_result_text = "¡Destruyeron la base!\n\n¿Jugar de nuevo?"
+	await get_tree().create_timer(0.05).timeout 
+	get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
 	queue_free()

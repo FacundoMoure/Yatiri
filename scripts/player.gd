@@ -46,7 +46,7 @@ func _ready() -> void:
 
 	add_to_group("Player")
 
-	var grupos = ["Muralla", "Muralla Enemiga", "Hut Enemigo"]
+	var grupos = ["Muralla", "Muralla Enemiga", "Hut Enemigo", "Base"]
 	for grupo in grupos:
 		for nodo in get_tree().get_nodes_in_group(grupo):
 			if nodo.has_signal("muralla_destruida"):
@@ -60,7 +60,7 @@ func _ready() -> void:
 	$Exhala.hide()
 	
 func _on_muralla_destruida():
-	camera_shake(1.0, 1.5)
+	camera_shake(2.0, 1.5)
 	
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -279,6 +279,8 @@ func die() -> void:
 	animated_sprite.position.y += 6
 
 	await get_tree().create_timer(3.5).timeout
+	Global.game_result_text = "¡Perdiste!\n\n¿Jugar de nuevo?"
+	await get_tree().create_timer(0.05).timeout 
 	get_tree().change_scene_to_file("res://scenes/game_over_screen.tscn")
 
 func camera_shake(duration: float, amount: float) -> void:

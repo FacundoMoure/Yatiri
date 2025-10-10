@@ -13,7 +13,7 @@ var damage_flash_count: int = 2        # cantidad de parpadeos
 var damage_flash_duration: float = 0.1 # duración de cada parpadeo
 var flash_counter: int = 0
 var flash_timer: Timer
-
+var destroyed := false
 
 func _ready() -> void:
 	add_to_group("Muralla")
@@ -29,9 +29,11 @@ func _ready() -> void:
 	monitorable = true
 	monitoring = true
 
-
+func is_destroyed() -> bool:
+	return destroyed
+	
 func take_damage(amount: int) -> void:
-	if health <= 0:
+	if health <= 0 or destroyed:
 		return
 	
 	$Hit.play()
@@ -67,8 +69,9 @@ func _on_flash_timer_timeout() -> void:
 
 
 func _on_destroyed() -> void:
+	destroyed = true
+	remove_from_group("Muralla")
 	await get_tree().create_timer(0.1).timeout
-	
 	emit_signal("muralla_destruida")
 
 	muralla_1.hide()
@@ -76,11 +79,17 @@ func _on_destroyed() -> void:
 	static_body.hide()
 	muralla_collision.disabled = true
 	static_collision.disabled = true
-	remove_from_group("Muralla")
+
 	$Explotion2.play()
 	$Explotion.show()
 	$Explotion.play("default")
+		# Instanciar la escena de muralla rota
+	var muralla_rota_scene = preload("res://scenes/muralla_rota.tscn")
+	var muralla_rota_instance = muralla_rota_scene.instantiate()
+	get_parent().add_child(muralla_rota_instance)
+	muralla_rota_instance.global_position = global_position + Vector2(-4, -1)
+
 	await $Explotion.animation_finished
 	$Explotion.hide()
-	await get_tree().create_timer(4.0).timeout
+	await get_tree().create_timer(4.0).timeout 
 	queue_free()
