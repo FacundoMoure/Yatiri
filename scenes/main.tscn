@@ -19,12 +19,12 @@
 [ext_resource type="PackedScene" uid="uid://bdpe0in6t3f84" path="res://scenes/hud.tscn" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://dtel6iu06o1tn" path="res://scripts/day_night_cycle.gd" id="12_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://cfwmegs4h1pd1" path="res://scenes/power_up.tscn" id="13_gqmmt"]
-[ext_resource type="PackedScene" uid="uid://bleoox6s7tqoh" path="res://scenes/coin.tscn" id="14_a8y0u"]
 [ext_resource type="AudioStream" uid="uid://baj6cumn3ciy3" path="res://assets/sound/charango.mp3" id="15_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://dmxfq5vavwy5r" path="res://assets/sound/birds.mp3" id="16_muem4"]
 [ext_resource type="PackedScene" uid="uid://tmd0h4oma52p" path="res://scenes/hut.tscn" id="17_muem4"]
 [ext_resource type="PackedScene" uid="uid://umlahfsnucks" path="res://scenes/hut_enemigo.tscn" id="19_0ld40"]
 [ext_resource type="PackedScene" uid="uid://c57j15065au41" path="res://scenes/enemy_1.tscn" id="26_2wyq8"]
+[ext_resource type="PackedScene" uid="uid://cyfvjbgy7ydwc" path="res://scenes/tutorial.tscn" id="26_vxglm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("2_0wfyh")
@@ -572,8 +572,12 @@ func _on_attack_timeout() -> void:
 script = ExtResource("1_o5qli")
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="TransitionControl" parent="CanvasLayer2" instance=ExtResource("2_2wyq8")]
+visible = false
+
+[node name="Tutorial" parent="CanvasLayer2" instance=ExtResource("26_vxglm")]
 visible = false
 
 [node name="TileMap" type="TileMapLayer" parent="." groups=["Ground"]]
@@ -713,6 +717,7 @@ idle_enemies_min = 1
 idle_enemies_max = 3
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15
@@ -727,6 +732,7 @@ night_duration = 150.0
 transition_time = 30.0
 
 [node name="Player" parent="." instance=ExtResource("3_sugp2")]
+process_mode = 3
 position = Vector2(297, 332)
 
 [node name="HUD" type="CanvasLayer" parent="."]
@@ -739,16 +745,9 @@ size_flags_vertical = 0
 z_index = 2
 position = Vector2(905, 332)
 
-[node name="Coin" parent="." instance=ExtResource("14_a8y0u")]
-position = Vector2(331, 327)
-
-[node name="Coin2" parent="." instance=ExtResource("14_a8y0u")]
-position = Vector2(387, 327)
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_jbj1t")
 volume_db = -10.0
-autoplay = true
 
 [node name="Sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("16_muem4")
@@ -762,7 +761,9 @@ position = Vector2(-1074, 272)
 position = Vector2(2000, 259)
 
 [node name="Enemy 1" parent="." instance=ExtResource("26_2wyq8")]
-position = Vector2(-471, 336)
+process_mode = 1
+position = Vector2(-354, 336)
 
 [node name="Enemy 2" parent="." instance=ExtResource("26_2wyq8")]
+process_mode = 1
 position = Vector2(-763, 330)
