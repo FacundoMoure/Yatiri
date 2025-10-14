@@ -14,8 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://b1bikqe8twap4" path="res://assets/img/parallax/parallax-nuevo-1.png" id="10_og1vs"]
 [ext_resource type="Texture2D" uid="uid://cws2s7mjae0h" path="res://assets/img/parallax/parallaxjujuy/fondo_2a.png" id="10_vxglm"]
 [ext_resource type="Texture2D" uid="uid://dkqf0ubj7e2t" path="res://assets/img/parallax/parallaxjujuy/fondo_2b.png" id="11_2f3dj"]
-[ext_resource type="Texture2D" uid="uid://dkvciqfn8b2qb" path="res://assets/img/parallax/parallax-nuevo-2.png" id="11_2wyq8"]
 [ext_resource type="Script" uid="uid://dgpl4g1fu1j8l" path="res://scripts/enemy_spawner.gd" id="11_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://dgj4mpyogw15d" path="res://assets/img/parallax/parallax-nuevo-3.png" id="11_og1vs"]
 [ext_resource type="PackedScene" uid="uid://bdpe0in6t3f84" path="res://scenes/hud.tscn" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://dtel6iu06o1tn" path="res://scripts/day_night_cycle.gd" id="12_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://cfwmegs4h1pd1" path="res://scenes/power_up.tscn" id="13_gqmmt"]
@@ -660,7 +660,7 @@ motion_mirroring = Vector2(1440, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxJujuy/ParallaxLayer4"]
 position = Vector2(2, 112)
-texture = ExtResource("11_2wyq8")
+texture = ExtResource("11_og1vs")
 centered = false
 
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="ParallaxJujuy"]
